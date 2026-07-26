@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ArrowUpRight, Film } from 'lucide-react';
+import { Play, ArrowUpRight, Film, Camera } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { PROJECTS_DATA, type Project } from '../data/projectsData';
 import { TRANSLATIONS, Language } from '../data/translations';
@@ -14,10 +14,8 @@ interface PortfolioGridProps {
 
 const CATEGORY_KEYS = [
   'ALL',
-  'Hospitality & Tourism',
-  'Events & Luxury',
-  'Drone & Aerial',
-  'Post-Production'
+  'VIDEOS',
+  'PHOTOS'
 ] as const;
 
 export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
@@ -30,9 +28,17 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
 
   const t = TRANSLATIONS[lang].portfolio;
 
+  const categoryLabels: Record<string, { en: string; ar: string }> = {
+    ALL: { en: 'ALL WORKS', ar: 'كل الأعمال' },
+    VIDEOS: { en: '🎥 VIDEOS', ar: '🎥 الفيديوهات' },
+    PHOTOS: { en: '📸 PHOTOS', ar: '📸 الصور' }
+  };
+
   const filteredProjects = activeCategory === 'ALL'
     ? PROJECTS_DATA
-    : PROJECTS_DATA.filter((p) => p.category === activeCategory);
+    : activeCategory === 'VIDEOS'
+    ? PROJECTS_DATA.filter((p) => p.type === 'video')
+    : PROJECTS_DATA.filter((p) => p.type === 'photo');
 
   return (
     <section id="work" className="relative py-28 px-6 md:px-12 bg-black border-t border-white/10">
@@ -50,18 +56,18 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
             </h2>
           </div>
 
-          {/* Category Pills */}
-          <div className="flex flex-wrap gap-2">
+          {/* Category Pills: ALL, VIDEOS, PHOTOS */}
+          <div className="flex flex-wrap gap-3">
             {CATEGORY_KEYS.map((catKey) => {
-              const label = t.categories[catKey] || catKey;
+              const label = categoryLabels[catKey]?.[lang] || catKey;
               return (
                 <button
                   key={catKey}
                   onClick={() => setActiveCategory(catKey)}
-                  className={`px-5 py-2.5 rounded-full text-xs font-syne font-bold tracking-wider transition-all duration-300 ${
+                  className={`px-6 py-3 rounded-full text-xs font-syne font-extrabold tracking-widest transition-all duration-300 ${
                     activeCategory === catKey
-                      ? 'bg-white text-black shadow-lg shadow-white/10 scale-105'
-                      : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+                      ? 'bg-white text-black shadow-lg shadow-white/20 scale-105'
+                      : 'bg-white/5 border border-white/15 text-zinc-400 hover:text-white hover:border-white/40'
                   }`}
                   onMouseEnter={() => onHoverStart?.('FILTER')}
                   onMouseLeave={() => onHoverEnd?.()}
@@ -103,20 +109,39 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500" />
                 </div>
 
-                {/* Top Category Badge & Year */}
+                {/* Top Category & Media Type Badge */}
                 <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-10">
-                  <span className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-syne font-bold tracking-widest text-zinc-300 uppercase">
-                    {t.categories[project.category] || project.category}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-syne font-bold tracking-widest text-zinc-300 uppercase">
+                      {project.category}
+                    </span>
+                    <span className="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-[10px] font-syne font-extrabold tracking-widest text-white uppercase flex items-center gap-1.5">
+                      {project.type === 'video' ? (
+                        <>
+                          <Film className="w-3 h-3 text-red-400" />
+                          <span>VIDEO</span>
+                        </>
+                      ) : (
+                        <>
+                          <Camera className="w-3 h-3 text-sky-400" />
+                          <span>PHOTOS</span>
+                        </>
+                      )}
+                    </span>
+                  </div>
                   <span className="text-xs font-syne font-bold text-zinc-400">
                     {project.year}
                   </span>
                 </div>
 
-                {/* Play Button Indicator Centered */}
+                {/* Play / Gallery Icon Center Indicator */}
                 <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                   <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transform group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                    <Play className="w-6 h-6 fill-white ml-1" />
+                    {project.type === 'video' ? (
+                      <Play className="w-6 h-6 fill-white ml-1" />
+                    ) : (
+                      <Camera className="w-6 h-6 text-white" />
+                    )}
                   </div>
                 </div>
 

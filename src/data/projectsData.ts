@@ -2,6 +2,7 @@ export interface Project {
   id: string;
   title: string;
   category: 'Hospitality & Tourism' | 'Events & Luxury' | 'Drone & Aerial' | 'Post-Production';
+  type: 'video' | 'photo';
   year: string;
   client: string;
   director: string;
@@ -28,6 +29,7 @@ export const PROJECTS_DATA: Project[] = [
     id: 'ms-savoy-nile-life',
     title: 'MS SAVOY — REDEFINING LIFE ON THE NILE',
     category: 'Hospitality & Tourism',
+    type: 'photo',
     year: '2025',
     client: 'MS Savoy',
     director: 'IRIS Media Production',
@@ -57,6 +59,7 @@ export const PROJECTS_DATA: Project[] = [
     id: 'seti-abu-simbel-view',
     title: 'SETI ABU SIMBEL — A VIEW WORTH EVERY MOMENT',
     category: 'Hospitality & Tourism',
+    type: 'photo',
     year: '2025',
     client: 'Seti Abu Simbel',
     director: 'IRIS Media Production',
@@ -86,6 +89,7 @@ export const PROJECTS_DATA: Project[] = [
     id: 'savoy-yacht-nile-journey',
     title: 'SAVOY YACHT: LUXOR TO ASWAN',
     category: 'Hospitality & Tourism',
+    type: 'video',
     year: '2025',
     client: 'Savoy Yacht',
     director: 'IRIS Media Production',
@@ -109,6 +113,7 @@ export const PROJECTS_DATA: Project[] = [
     id: 'semiramis-iii-nile-cruise',
     title: 'SEMIRAMIS III NILE CRUISE',
     category: 'Hospitality & Tourism',
+    type: 'video',
     year: '2025',
     client: 'Semiramis III Nile Cruise',
     director: 'IRIS Media Production',
@@ -131,6 +136,7 @@ export const PROJECTS_DATA: Project[] = [
     id: 'iris-brand-feeling-experience',
     title: 'WE CREATE THE FEELING OF BEING THERE',
     category: 'Post-Production',
+    type: 'video',
     year: '2025',
     client: 'IRIS Media Brand',
     director: 'IRIS Creative Team',
@@ -152,6 +158,7 @@ export const PROJECTS_DATA: Project[] = [
     id: 'sentido-hotel-anniversary',
     title: 'SENTIDO HOTEL 2ND ANNIVERSARY',
     category: 'Hospitality & Tourism',
+    type: 'video',
     year: '2025',
     client: 'Sentido Hotel',
     director: 'IRIS Media Production',
