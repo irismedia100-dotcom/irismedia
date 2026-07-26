@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200" fill="#FFFFFF">
+  <!--
+    Official iRIS Media Production Logo – White Version
+    Faithfully recreating the editorial iRIS wordmark:
+      • fluid italic 'i' with camera-lens dot
+      • large overlapping 'R' whose top bar sweeps from i
+      • vertical 'I' 
+      • high-contrast editorial 'S'
+      • "MEDIA PRODUCTION" subtitle
+  -->
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- 'i' lower body + sweeping serif stroke -->
+  <!-- ══════════════════════════════════════ -->
+  <!-- Fluid italic body of 'i', slanting down-right -->
+  <path d="M 28 158
+             C 42 120 62 94 96 78
+             L 118 74
+             C 100 100 76 130 62 158
+             Z" />
+
+  <!-- Camera-lens dot (eye) above 'i' -->
+  <circle cx="110" cy="52" r="16" fill="#FFFFFF"/>
+  <circle cx="110" cy="52" r="10" fill="#000000"/>
+  <circle cx="110" cy="52" r="5"  fill="#FFFFFF"/>
+  <circle cx="113" cy="49" r="2"  fill="#000000"/>
+
+  <!-- Horizontal roof bar sweeping from i dot across top of R -->
+  <path d="M 90 38 L 220 38 L 220 46 L 90 46 Z" />
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- 'R' — editorial bold with curved bowl -->
+  <!-- ══════════════════════════════════════ -->
+  <!-- Vertical stem of R -->
+  <path d="M 140 46 L 156 46 L 156 158 L 140 158 Z" />
+
+  <!-- Rounded bowl of R (top half) -->
+  <path d="M 156 46
+             C 210 46 228 62 228 84
+             C 228 106 210 120 158 120
+             L 140 120 L 140 108 L 156 108
+             C 204 108 216 98 216 84
+             C 216 70 204 58 156 58
+             Z" />
+
+  <!-- Diagonal leg of R sweeping to bottom-right -->
+  <path d="M 158 120 L 210 158 L 192 158 L 144 122 Z" />
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- 'I' — thin vertical bar               -->
+  <!-- ══════════════════════════════════════ -->
+  <path d="M 242 74 L 258 74 L 258 158 L 242 158 Z" />
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- 'S' — high-contrast editorial serif   -->
+  <!-- ══════════════════════════════════════ -->
+  <path d="
+    M 348 88
+    C 338 74  320 68  304 72
+    C 288 76  282 88  288 100
+    C 294 112 310 116 332 124
+    C 352 130 366 140 360 154
+    C 354 168 334 172 314 168
+    C 294 164 282 150 276 134
+    L 296 128
+    C 302 142 314 150 330 148
+    C 342 146 344 136 338 128
+    C 332 120 316 114 298 108
+    C 280 100 270 88 276 74
+    C 282 58  304 52  328 54
+    C 350 56  364 70  370 86
+    Z
+  " />
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- Subtitle: MEDIA PRODUCTION            -->
+  <!-- ══════════════════════════════════════ -->
+  <text
+    x="28" y="185"
+    font-family="'Syne', 'Arial Black', sans-serif"
+    font-weight="900"
+    font-size="21"
+    letter-spacing="5"
+    fill="#FFFFFF"
+  >MEDIA PRODUCTION</text>
+</svg>
