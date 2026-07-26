@@ -91,19 +91,23 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                   </div>
                 </div>
 
-                {/* Thumbnails Row */}
-                <div className="flex items-center gap-3 overflow-x-auto pb-2">
+                {/* Thumbnails Row — Touch-friendly scroll */}
+                <div
+                  className="flex items-center gap-3 overflow-x-auto pb-3"
+                  style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'x mandatory' }}
+                >
                   {project.galleryImages!.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActiveImageIndex(idx)}
-                      className={`relative w-24 h-16 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
+                      style={{ scrollSnapAlign: 'start' }}
+                      className={`relative w-28 h-20 sm:w-36 sm:h-24 md:w-44 md:h-28 rounded-xl overflow-hidden shrink-0 border-2 transition-all touch-pan-x ${
                         activeImageIndex === idx
-                          ? 'border-white scale-105 shadow-lg'
-                          : 'border-transparent opacity-50 hover:opacity-100'
+                          ? 'border-white scale-105 shadow-lg shadow-white/20'
+                          : 'border-transparent opacity-50 hover:opacity-100 active:opacity-100'
                       }`}
                     >
-                      <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
+                      <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
