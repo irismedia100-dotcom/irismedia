@@ -40,8 +40,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
-        {/* Backdrop Backdrop */}
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-6 md:p-10">
+        {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -52,11 +52,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
         {/* Modal Window Container */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 30 }}
+          initial={{ opacity: 0, scale: 0.95, y: 50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 30 }}
+          exit={{ opacity: 0, scale: 0.95, y: 50 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 w-full max-w-5xl max-h-[90vh] flex flex-col bg-[#0D0D0D] border border-white/15 rounded-2xl overflow-hidden shadow-2xl"
+          className="relative z-10 w-full max-w-5xl h-[92vh] sm:h-auto sm:max-h-[90vh] flex flex-col bg-[#0D0D0D] border border-white/15 sm:rounded-2xl rounded-t-3xl overflow-hidden shadow-2xl"
         >
           {/* Top Bar with Title & Close Button */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/60">
@@ -75,43 +75,64 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           </div>
 
           {/* Scrollable Container for Media & Details */}
-          <div className="flex-1 overflow-y-auto">
+          <div
+            className="flex-1 overflow-y-auto overscroll-contain"
+            style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}
+            data-lenis-prevent
+          >
             {/* Photo Gallery Showcase */}
             {hasGallery ? (
               <div className="bg-black p-4 space-y-4">
-                {/* Main Active Image Display */}
-                <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-zinc-900 border border-white/10 group">
+                {/* Main Active Image Display with Prev/Next Arrows */}
+                <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-zinc-900 border border-white/10">
                   <img
                     src={project.galleryImages![activeImageIndex]}
                     alt={`${project.title} - Image ${activeImageIndex + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-all duration-500"
                   />
-                  <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-syne font-bold text-white">
+
+                  {/* Image Counter Badge */}
+                  <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-xs font-syne font-bold text-white">
                     {activeImageIndex + 1} / {project.galleryImages!.length}
                   </div>
+
+                  {/* PREV Arrow */}
+                  {activeImageIndex > 0 && (
+                    <button
+                      onClick={() => setActiveImageIndex(activeImageIndex - 1)}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/70 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black active:scale-95 transition-all shadow-xl z-10"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                  )}
+
+                  {/* NEXT Arrow */}
+                  {activeImageIndex < project.galleryImages!.length - 1 && (
+                    <button
+                      onClick={() => setActiveImageIndex(activeImageIndex + 1)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/70 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black active:scale-95 transition-all shadow-xl z-10"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                  )}
                 </div>
 
-                {/* Thumbnails Row — Touch-friendly scroll */}
-                <div
-                  className="flex items-center gap-3 overflow-x-auto pb-3"
-                  style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'x mandatory' }}
-                >
-                  {project.galleryImages!.map((img, idx) => (
+                {/* Dot Indicators */}
+                <div className="flex items-center justify-center gap-2 py-1">
+                  {project.galleryImages!.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActiveImageIndex(idx)}
-                      style={{ scrollSnapAlign: 'start' }}
-                      className={`relative w-28 h-20 sm:w-36 sm:h-24 md:w-44 md:h-28 rounded-xl overflow-hidden shrink-0 border-2 transition-all touch-pan-x ${
+                      className={`rounded-full transition-all duration-300 ${
                         activeImageIndex === idx
-                          ? 'border-white scale-105 shadow-lg shadow-white/20'
-                          : 'border-transparent opacity-50 hover:opacity-100 active:opacity-100'
+                          ? 'w-6 h-2.5 bg-white'
+                          : 'w-2.5 h-2.5 bg-white/30 hover:bg-white/60'
                       }`}
-                    >
-                      <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
-                    </button>
+                    />
                   ))}
                 </div>
               </div>
+
             ) : project.videoUrl ? (
               /* Main Video Player Container */
               <div className="relative aspect-video w-full bg-black group shrink-0">
