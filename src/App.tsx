@@ -29,6 +29,8 @@ export const App: React.FC = () => {
   }, [lang]);
 
   // Initialize Lenis Smooth Scroll with ESM/CJS safe fallback
+  const [lenisInstance, setLenisInstance] = useState<any>(null);
+
   useEffect(() => {
     let lenis: any = null;
 
@@ -41,6 +43,7 @@ export const App: React.FC = () => {
           smoothWheel: true,
           wheelMultiplier: 1
         });
+        setLenisInstance(lenis);
 
         const raf = (time: number) => {
           if (lenis) {
@@ -61,6 +64,17 @@ export const App: React.FC = () => {
       }
     };
   }, []);
+
+  // Lock background scroll when modal is active
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+      if (lenisInstance) lenisInstance.stop();
+    } else {
+      document.body.style.overflow = '';
+      if (lenisInstance) lenisInstance.start();
+    }
+  }, [selectedProject, lenisInstance]);
 
   const handleHoverStart = (text: string) => {
     setCursorText(text);
