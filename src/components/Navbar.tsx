@@ -122,6 +122,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               <FacebookIcon className="w-4 h-4" />
             </a>
 
+            {/* Translation Language Toggle Button (Desktop & Tablet) */}
+            <button
+              onClick={onToggleLanguage}
+              className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-full border border-white/30 bg-white/5 backdrop-blur-md text-xs font-syne font-bold text-white hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg group"
+              title={lang === 'en' ? 'التحويل للغة العربية' : 'Switch to English'}
+              onMouseEnter={() => onHoverStart?.(lang === 'en' ? 'ARABIC' : 'ENGLISH')}
+              onMouseLeave={() => onHoverEnd?.()}
+            >
+              <Globe className="w-3.5 h-3.5" />
+              <span className="tracking-wider">{t.langSwitch}</span>
+            </button>
+
             {/* Let's Talk CTA */}
             <a
               href="#contact"
