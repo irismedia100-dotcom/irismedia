@@ -122,22 +122,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <FacebookIcon className="w-4 h-4" />
             </a>
 
-            {/* Translation Language Toggle Button */}
-            <button
-              onClick={onToggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-full border border-white/30 bg-white/5 backdrop-blur-md text-xs font-syne font-bold text-white hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg group"
-              title={lang === 'en' ? 'التحويل للغة العربية' : 'Switch to English'}
-              onMouseEnter={() => onHoverStart?.(lang === 'en' ? 'ARABIC' : 'ENGLISH')}
-              onMouseLeave={() => onHoverEnd?.()}
-            >
-              <Globe className="w-3.5 h-3.5" />
-              <span className="tracking-wider">{t.langSwitch}</span>
-            </button>
-
             {/* Let's Talk CTA */}
             <a
               href="#contact"
-              className="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-white/30 bg-white/5 backdrop-blur-md text-xs font-syne font-bold tracking-widest text-white hover:bg-white hover:text-black hover:border-white transition-all duration-300 group shadow-lg"
+              className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border border-white/30 bg-white/5 backdrop-blur-md text-xs font-syne font-bold tracking-widest text-white hover:bg-white hover:text-black hover:border-white transition-all duration-300 group shadow-lg"
               onMouseEnter={() => onHoverStart?.('TALK')}
               onMouseLeave={() => onHoverEnd?.()}
             >
