@@ -1,148 +1,148 @@
-import React, { useEffect, useState } from 'react';
-import Lenis from 'lenis';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { PortfolioGrid } from './components/PortfolioGrid';
-import { ProjectModal } from './components/ProjectModal';
-import { Services } from './components/Services';
-import { AboutConcept } from './components/AboutConcept';
-import { ContactFooter } from './components/ContactFooter';
-import { CustomCursor } from './components/CustomCursor';
-import { NoiseOverlay } from './components/NoiseOverlay';
-import type { Project } from './data/projectsData';
-import type { Language } from './data/translations';
+import React, { useState, useEffect } from 'react';
+import { Sidebar } from './components/Sidebar';
+import { TopNav } from './components/TopNav';
+import { GalleryGrid } from './components/GalleryGrid';
+import { LightboxModal } from './components/LightboxModal';
+import { ContactModal } from './components/ContactModal';
+import { AboutModal } from './components/AboutModal';
+import { ALL_PROJECTS } from './data/portfolio';
+import type { PortfolioItem } from './data/portfolio';
 
 export const App: React.FC = () => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [cursorText, setCursorText] = useState<string>('');
-  const [isCursorHovered, setIsCursorHovered] = useState<boolean>(false);
-  const [lang, setLang] = useState<Language>('en');
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [lightboxProject, setLightboxProject] = useState<PortfolioItem | null>(null);
+  const [isContactModalOpen, setIsContactModalOpen] = useState<boolean>(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState<boolean>(false);
+  const [isOpenMobile, setIsOpenMobile] = useState<boolean>(false);
 
-  // Toggle Language between English and Arabic with document dir handling
-  const handleToggleLanguage = () => {
-    setLang((prev) => (prev === 'en' ? 'ar' : 'en'));
+  // Check URL query parameters for direct image share links (?project=id)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const projectId = params.get('project');
+    if (projectId) {
+      const matchedProject = ALL_PROJECTS.find((p) => p.id === projectId);
+      if (matchedProject) {
+        setLightboxProject(matchedProject);
+        setActiveCategory(matchedProject.categoryId);
+        setSelectedProjectId(matchedProject.id);
+      }
+    }
+  }, []);
+
+  // Update URL search param when lightbox project changes
+  const handleSelectLightboxProject = (proj: PortfolioItem | null) => {
+    setLightboxProject(proj);
+    const url = new URL(window.location.href);
+    if (proj) {
+      url.searchParams.set('project', proj.id);
+    } else {
+      url.searchParams.delete('project');
+    }
+    window.history.replaceState({}, '', url.toString());
   };
 
+  // When clicking a category or project from the sidebar
+  const handleSidebarCategorySelect = (catId: string) => {
+    setActiveCategory(catId);
+    setSelectedProjectId(null);
+    setLightboxProject(null);
+  };
+
+  const handleSidebarProjectSelect = (proj: PortfolioItem) => {
+    setActiveCategory(proj.categoryId);
+    setSelectedProjectId(proj.id);
+    setLightboxProject(null); // Ensure grid view is shown next to sidebar, not full-screen modal!
+  };
+
+  // Anti-Theft / Copyright protection global event handlers (Silent protection)
   useEffect(() => {
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = lang;
-  }, [lang]);
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
 
-  // Initialize Lenis Smooth Scroll with ESM/CJS safe fallback
-  const [lenisInstance, setLenisInstance] = useState<any>(null);
+    const handleDragStart = (e: DragEvent) => {
+      e.preventDefault();
+    };
 
-  useEffect(() => {
-    let lenis: any = null;
-
-    try {
-      const LenisClass = (Lenis as any)?.default || Lenis;
-      if (typeof LenisClass === 'function') {
-        lenis = new LenisClass({
-          duration: 1.2,
-          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          smoothWheel: true,
-          wheelMultiplier: 1
-        });
-        setLenisInstance(lenis);
-
-        const raf = (time: number) => {
-          if (lenis) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-          }
-        };
-
-        requestAnimationFrame(raf);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        (e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U' || e.key === 'p' || e.key === 'P')
+      ) {
+        e.preventDefault();
       }
-    } catch (e) {
-      console.warn('Lenis smooth scroll initialization skipped:', e);
-    }
+    };
+
+    window.addEventListener('contextmenu', handleContextMenu);
+    window.addEventListener('dragstart', handleDragStart);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      if (lenis && typeof lenis.destroy === 'function') {
-        lenis.destroy();
-      }
+      window.removeEventListener('contextmenu', handleContextMenu);
+      window.removeEventListener('dragstart', handleDragStart);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
-  // Lock background scroll when modal is active
-  useEffect(() => {
-    if (selectedProject) {
-      document.body.style.overflow = 'hidden';
-      if (lenisInstance) lenisInstance.stop();
-    } else {
-      document.body.style.overflow = '';
-      if (lenisInstance) lenisInstance.start();
-    }
-  }, [selectedProject, lenisInstance]);
-
-  const handleHoverStart = (text: string) => {
-    setCursorText(text);
-    setIsCursorHovered(true);
-  };
-
-  const handleHoverEnd = () => {
-    setCursorText('');
-    setIsCursorHovered(false);
-  };
+  // Filter projects by current category
+  const filteredProjects =
+    activeCategory === 'all'
+      ? ALL_PROJECTS
+      : ALL_PROJECTS.filter((p) => p.categoryId === activeCategory);
 
   return (
-    <div className="min-h-screen bg-black text-white relative font-sans selection:bg-white selection:text-black">
-      {/* Custom Lenis Cursor & Noise Overlay */}
-      <CustomCursor cursorText={cursorText} isHovered={isCursorHovered} />
-      <NoiseOverlay />
-
-      {/* Navigation Header */}
-      <Navbar
-        lang={lang}
-        onToggleLanguage={handleToggleLanguage}
-        onHoverStart={handleHoverStart}
-        onHoverEnd={handleHoverEnd}
+    <div className="min-h-screen bg-white text-neutral-900 font-sans-body relative select-none">
+      {/* Fixed Left Sidebar (295px width) */}
+      <Sidebar
+        activeCategory={activeCategory}
+        onSelectCategory={handleSidebarCategorySelect}
+        selectedProjectId={selectedProjectId}
+        onSelectProjectFilter={handleSidebarProjectSelect}
+        onOpenContactModal={() => setIsContactModalOpen(true)}
+        onOpenAboutModal={() => setIsAboutModalOpen(true)}
+        isOpenMobile={isOpenMobile}
+        onToggleMobile={() => setIsOpenMobile(!isOpenMobile)}
       />
 
-      {/* Main Sections */}
-      <main>
-        {/* Fullscreen Hero Section */}
-        <Hero
-          lang={lang}
-          onHoverStart={handleHoverStart}
-          onHoverEnd={handleHoverEnd}
+      {/* Main Content Area (Offset by 295px left margin on desktop) */}
+      <div className="md:ml-[295px] min-h-screen bg-white flex flex-col transition-all duration-300">
+        {/* Top Right Navigation (Category Pills) */}
+        <TopNav
+          activeCategory={activeCategory}
+          onSelectCategory={handleSidebarCategorySelect}
         />
 
-        {/* Selected Works Portfolio Grid */}
-        <PortfolioGrid
-          lang={lang}
-          onSelectProject={(project) => setSelectedProject(project)}
-          onHoverStart={handleHoverStart}
-          onHoverEnd={handleHoverEnd}
-        />
+        {/* Main Masonry Photography Grid next to sidebar (Screenshot match) */}
+        <main className="flex-1">
+          <GalleryGrid
+            activeCategory={activeCategory}
+            selectedProjectId={selectedProjectId}
+            onSelectProject={(proj) => handleSelectLightboxProject(proj)}
+          />
+        </main>
+      </div>
 
-        {/* Services Accordion */}
-        <Services
-          lang={lang}
-          onHoverStart={handleHoverStart}
-          onHoverEnd={handleHoverEnd}
+      {/* Fullscreen Lightbox / Slideshow Viewer Modal (Only when photo card clicked!) */}
+      {lightboxProject && (
+        <LightboxModal
+          project={lightboxProject}
+          allProjects={filteredProjects}
+          onClose={() => handleSelectLightboxProject(null)}
+          onSelectProject={(proj) => handleSelectLightboxProject(proj)}
         />
+      )}
 
-        {/* About & IRIS Vision Concept */}
-        <AboutConcept
-          lang={lang}
-          onHoverStart={handleHoverStart}
-          onHoverEnd={handleHoverEnd}
-        />
-      </main>
-
-      {/* Contact Form & Footer */}
-      <ContactFooter
-        lang={lang}
-        onHoverStart={handleHoverStart}
-        onHoverEnd={handleHoverEnd}
+      {/* Full Portfolio Contact & Inquiry Modal */}
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
       />
 
-      {/* Lightbox Video Modal */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
+      {/* About Company Story Modal */}
+      <AboutModal
+        isOpen={isAboutModalOpen}
+        onClose={() => setIsAboutModalOpen(false)}
       />
     </div>
   );
