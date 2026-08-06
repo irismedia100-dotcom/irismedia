@@ -20,15 +20,13 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
       ? ALL_PROJECTS
       : ALL_PROJECTS.filter((p) => p.categoryId === activeCategory);
 
-  // If a specific project is selected from sidebar, sort it first
-  if (selectedProjectId) {
-    const selectedItem = projectsToDisplay.find((p) => p.id === selectedProjectId);
-    if (selectedItem) {
-      projectsToDisplay = [
-        selectedItem,
-        ...projectsToDisplay.filter((p) => p.id !== selectedProjectId)
-      ];
-    }
+  const selectedItem = selectedProjectId
+    ? ALL_PROJECTS.find((p) => p.id === selectedProjectId)
+    : null;
+
+  // If a specific project/company is selected from sidebar, filter ONLY that company's photos
+  if (selectedItem) {
+    projectsToDisplay = projectsToDisplay.filter((p) => p.title === selectedItem.title);
   }
 
   const currentCategoryInfo = CATEGORIES_DATA.find((c) => c.id === activeCategory);
@@ -39,7 +37,11 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
       <div className="mb-8 border-b border-neutral-100 pb-4 flex items-baseline justify-between">
         <div>
           <h2 className="font-serif-heading text-2xl font-normal text-neutral-900 tracking-wide">
-            {activeCategory === 'all' ? 'Featured Portfolio' : currentCategoryInfo?.name}
+            {selectedItem
+              ? selectedItem.title
+              : activeCategory === 'all'
+              ? 'Featured Portfolio'
+              : currentCategoryInfo?.name}
           </h2>
           <p className="text-xs text-neutral-400 mt-1 uppercase tracking-wider font-medium">
             {activeCategory === 'all'
