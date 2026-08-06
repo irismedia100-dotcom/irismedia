@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { Send, ArrowUp, Mail, MapPin, CheckCircle, Clock, Phone } from 'lucide-react';
+import { Send, ArrowUp, Mail, MapPin, CheckCircle, Clock, Phone, MessageSquare } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { FacebookIcon } from './FacebookIcon';
 import { TRANSLATIONS, Language } from '../data/translations';
@@ -62,7 +62,6 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
 
     if (!validate()) return;
 
-    // Check honeypot
     if (formData.botcheck) return;
 
     setLoading(true);
@@ -97,7 +96,6 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
           message: lang === 'ar' ? '✅ تم إرسال طلبك بنجاح!' : '✅ Message transmitted successfully!'
         });
 
-        // Trigger Confetti
         confetti({
           particleCount: 80,
           spread: 70,
@@ -105,7 +103,6 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
           colors: ['#ffffff', '#a1a1aa', '#52525b']
         });
 
-        // Reset form
         setFormData({
           name: '',
           phone: '',
@@ -122,7 +119,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
           message: lang === 'ar' ? '❌ حدث خطأ، حاول مرة أخرى' : '❌ An error occurred, please try again.'
         });
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
       setFormStatus({
         type: 'error',
@@ -186,7 +183,6 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8" noValidate>
-                {/* Web3Forms Hidden Inputs */}
                 <input type="hidden" name="access_key" value={ACCESS_KEY} />
                 <input type="hidden" name="subject" value="🔔 طلب جديد من الموقع" />
                 <input type="hidden" name="from_name" value="نموذج التواصل" />
@@ -230,7 +226,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
                     )}
                   </div>
 
-                  {/* Phone / WhatsApp Input */}
+                  {/* Phone / Contact Number Input */}
                   <div className="space-y-2">
                     <label className="text-xs font-syne font-bold text-zinc-300 tracking-wider uppercase block">
                       {t.phoneLabel}
@@ -239,7 +235,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
                       type="tel"
                       name="phone"
                       required
-                      placeholder="+20 12 74795553"
+                      placeholder="01028875361 / +20 12 74795553"
                       value={formData.phone}
                       onChange={(e) => {
                         setFormData({ ...formData, phone: e.target.value });
@@ -343,7 +339,6 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
                   )}
                 </button>
 
-                {/* Status Message Notification Div */}
                 <div id="form-result">
                   {formStatus.type && (
                     <motion.div
@@ -381,13 +376,35 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
                 {t.directChannels}
               </h3>
 
-              {/* WhatsApp & Phone Card */}
+              {/* WhatsApp Direct Card (+20 12 74795553) */}
               <a
                 href="https://wa.me/201274795553"
                 target="_blank"
                 rel="noreferrer"
-                className="glass-card p-6 rounded-2xl flex items-center justify-between block group border border-white/10 hover:border-white/40"
+                className="glass-card p-6 rounded-2xl flex items-center justify-between block group border border-emerald-500/30 hover:border-emerald-400 transition-colors"
                 onMouseEnter={() => onHoverStart?.('WHATSAPP')}
+                onMouseLeave={() => onHoverEnd?.()}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full border border-emerald-500/40 flex items-center justify-center bg-emerald-950/60 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-black transition-colors">
+                    <MessageSquare className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-syne font-bold text-emerald-400 block uppercase">
+                      WHATSAPP DIRECT
+                    </span>
+                    <span className="font-syne font-bold text-sm text-white group-hover:text-zinc-200">
+                      +20 12 74795553
+                    </span>
+                  </div>
+                </div>
+              </a>
+
+              {/* Call Direct Card (01028875361) */}
+              <a
+                href="tel:01028875361"
+                className="glass-card p-6 rounded-2xl flex items-center justify-between block group border border-white/10 hover:border-white/40 transition-colors"
+                onMouseEnter={() => onHoverStart?.('PHONE')}
                 onMouseLeave={() => onHoverEnd?.()}
               >
                 <div className="flex items-center gap-4">
@@ -396,10 +413,34 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
                   </div>
                   <div>
                     <span className="text-[10px] font-syne font-bold text-zinc-400 block uppercase">
-                      {t.whatsappTitle}
+                      PHONE CALL DIRECT
                     </span>
                     <span className="font-syne font-bold text-sm text-white group-hover:text-zinc-300">
-                      +20 12 74795553
+                      +20 102 887 5361
+                    </span>
+                  </div>
+                </div>
+              </a>
+
+              {/* Gmail Compose Card */}
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=irismediaproduction01@gmail.com"
+                target="_blank"
+                rel="noreferrer"
+                className="glass-card p-6 rounded-2xl flex items-center justify-between block group border border-white/10 hover:border-white/40"
+                onMouseEnter={() => onHoverStart?.('EMAIL')}
+                onMouseLeave={() => onHoverEnd?.()}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-black/60 text-white group-hover:bg-white group-hover:text-black transition-colors">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-syne font-bold text-zinc-400 block uppercase">
+                      GMAIL DIRECT
+                    </span>
+                    <span className="font-syne font-bold text-sm text-white group-hover:text-zinc-300">
+                      irismediaproduction01@gmail.com
                     </span>
                   </div>
                 </div>
@@ -428,67 +469,9 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
                   </div>
                 </div>
               </a>
-
-              {/* Facebook Card */}
-              <a
-                href="https://www.facebook.com/share/1JhB6ZMycS/"
-                target="_blank"
-                rel="noreferrer"
-                className="glass-card p-6 rounded-2xl flex items-center justify-between block group border border-white/10 hover:border-white/40"
-                onMouseEnter={() => onHoverStart?.('FACEBOOK')}
-                onMouseLeave={() => onHoverEnd?.()}
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-black/60 text-white group-hover:bg-white group-hover:text-black transition-colors">
-                    <FacebookIcon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-syne font-bold text-zinc-400 block uppercase">
-                      FACEBOOK
-                    </span>
-                    <span className="font-syne font-bold text-sm text-white group-hover:text-zinc-300">
-                      IRIS Media Production
-                    </span>
-                  </div>
-                </div>
-              </a>
-
-              {/* Email Card */}
-              <a
-                href="mailto:irismedia100@gmail.com"
-                className="glass-card p-6 rounded-2xl flex items-center justify-between block group border border-white/10 hover:border-white/40"
-                onMouseEnter={() => onHoverStart?.('EMAIL')}
-                onMouseLeave={() => onHoverEnd?.()}
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-black/60 text-white group-hover:bg-white group-hover:text-black transition-colors">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-syne font-bold text-zinc-400 block uppercase">
-                      {t.emailTitle}
-                    </span>
-                    <span className="font-syne font-bold text-sm text-white group-hover:text-zinc-300">
-                      irismedia100@gmail.com
-                    </span>
-                  </div>
-                </div>
-              </a>
-
-              {/* HQ Location & Time Card */}
-              <div className="glass-card p-6 rounded-2xl border border-white/10 space-y-3">
-                <div className="flex items-center gap-3 text-xs font-syne text-zinc-400">
-                  <MapPin className="w-4 h-4 text-white" />
-                  <span>{t.location}</span>
-                </div>
-                <div className="flex items-center gap-3 text-xs font-syne text-zinc-400">
-                  <Clock className="w-4 h-4 text-white" />
-                  <span>{t.timezone}</span>
-                </div>
-              </div>
             </div>
 
-            {/* Back to top magnetic button */}
+            {/* Back to top button */}
             <button
               onClick={scrollToTop}
               className="w-full py-4 rounded-2xl border border-white/20 bg-black/40 text-xs font-syne font-bold tracking-widest text-white hover:bg-white hover:text-black hover:border-white transition-all flex items-center justify-center gap-2 group"
@@ -516,9 +499,6 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ lang, onHoverStart
             </a>
             <a href="https://www.facebook.com/share/1JhB6ZMycS/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
               FACEBOOK
-            </a>
-            <a href="#work" className="hover:text-white transition-colors">
-              SHOWREEL
             </a>
           </div>
         </div>

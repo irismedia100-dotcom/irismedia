@@ -7,7 +7,7 @@ export const MARINE_PROJECTS: PortfolioItem[] = [
     category: 'Nile Cruise',
     categoryId: 'nile-cruise',
     type: 'video',
-    videoUrl: '/videos/22.mp4',
+    videoUrl: 'https://res.cloudinary.com/zve7as6v/video/upload/v1785944419/11_oqr3k9.mp4',
     location: 'Monaco, French Riviera',
     year: '2025',
     designer: 'Stefano Righini Design',

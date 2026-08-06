@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Plus, Menu, Mail, Phone } from 'lucide-react';
+import { X, Plus, Menu, Mail, Phone, Home, MessageSquare } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { FacebookIcon } from './FacebookIcon';
 import { CATEGORIES_DATA } from '../data/portfolio';
@@ -14,6 +14,7 @@ interface SidebarProps {
   onOpenAboutModal: () => void;
   isOpenMobile: boolean;
   onToggleMobile: () => void;
+  onNavigateHome: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -24,20 +25,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenContactModal,
   onOpenAboutModal,
   isOpenMobile,
-  onToggleMobile
+  onToggleMobile,
+  onNavigateHome,
 }) => {
   // Track open/collapsed categories
   const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({
-    'hotels': false,
+    hotels: false,
     'nile-cruise': false,
-    'nile-dahabiya': false
+    'nile-dahabiya': false,
   });
 
   const toggleCategoryCollapse = (categoryId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setCollapsedCategories((prev) => ({
       ...prev,
-      [categoryId]: !prev[categoryId]
+      [categoryId]: !prev[categoryId],
     }));
   };
 
@@ -66,11 +68,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           isOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
-        {/* Top Header: Official IRIS Logo Image + Company Name */}
+        {/* Top Header: Official IRIS Logo Image + Navigation */}
         <div>
           <div
             className="mb-8 cursor-pointer group flex items-center"
-            onClick={() => onSelectCategory('all')}
+            onClick={onNavigateHome}
+            title="Return to Home Page"
           >
             <img
               src="/assets/iris-logo-01.png"
@@ -79,8 +82,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
             />
           </div>
 
-          {/* Nav Links: About, Contact, Archive (Films removed per request) */}
+          {/* Nav Links: Home, About, Contact, Archive */}
           <div className="mb-6 space-y-2 border-b border-neutral-100 pb-5 text-sm">
+            <button
+              onClick={onNavigateHome}
+              className="flex items-center gap-2 text-neutral-900 font-bold text-xs tracking-wider hover:text-neutral-600 transition-colors uppercase"
+            >
+              <Home size={14} />
+              <span>Home Page</span>
+            </button>
             <button
               onClick={onOpenAboutModal}
               className="block text-neutral-500 hover:text-neutral-900 transition-colors font-medium text-xs tracking-wider"
@@ -149,7 +159,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       {/* Project items under category */}
                       {!isCollapsed && (
                         <ul className="pl-3 space-y-1 border-l border-neutral-100">
-                          {cat.projects.map((proj) => {
+                          {Array.from(new Map(cat.projects.map((p) => [p.title, p])).values()).map((proj) => {
                             const isProjSelected = selectedProjectId === proj.id;
                             return (
                               <li key={proj.id}>
@@ -180,31 +190,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </nav>
         </div>
 
-        {/* Bottom Sidebar Footer Section matching Screenshot 2 */}
-        <div className="pt-6 border-t border-neutral-100 space-y-3">
-          {/* Email Link */}
+        {/* Bottom Sidebar Footer Section */}
+        <div className="pt-6 border-t border-neutral-100 space-y-2.5">
+          {/* Gmail Link (Opens Gmail Compose Page) */}
           <a
-            href="mailto:irismedia100@gmail.com"
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=irismediaproduction01@gmail.com"
+            target="_blank"
+            rel="noreferrer"
             className="block text-xs font-medium text-neutral-900 hover:underline tracking-tight transition-colors"
+            title="Compose message in Gmail"
           >
-            irismedia100@gmail.com
+            irismediaproduction01@gmail.com
           </a>
 
-          {/* WhatsApp & Phone */}
+          {/* Regular Phone Call (+20 102 887 5361) */}
+          <a
+            href="tel:01028875361"
+            className="block text-xs font-medium text-neutral-800 hover:text-neutral-900 transition-colors"
+          >
+            +20 102 887 5361
+          </a>
+
+          {/* WhatsApp Direct (+20 12 74795553) */}
           <a
             href="https://wa.me/201274795553"
             target="_blank"
             rel="noreferrer"
-            className="block text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
+            className="block text-xs font-medium text-emerald-700 hover:text-emerald-900 transition-colors"
           >
-            +20 12 74795553
+            +20 12 74795553 (WhatsApp)
           </a>
 
           <div className="text-neutral-300 text-xs">-</div>
 
-          {/* Copyright & Reproduction Disclaimer */}
+          {/* Copyright & Disclaimer */}
           <div className="text-[10px] text-neutral-400 leading-snug font-sans space-y-0.5">
-            <p>All Images © 2026 IRIS Media Production</p>
+            <p>All Images © {new Date().getFullYear()} IRIS Media Production</p>
             <p>No reproduction without permission.</p>
           </div>
 
@@ -240,14 +261,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
               className="hover:text-neutral-900 transition-colors"
               title="WhatsApp"
             >
-              <Phone size={13} />
+              <MessageSquare size={13} />
             </a>
 
             {/* Gmail */}
             <a
-              href="mailto:irismedia100@gmail.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=irismediaproduction01@gmail.com"
+              target="_blank"
+              rel="noreferrer"
               className="hover:text-neutral-900 transition-colors"
-              title="Email"
+              title="Send via Gmail"
             >
               <Mail size={13} />
             </a>

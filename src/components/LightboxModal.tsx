@@ -132,9 +132,9 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
       </div>
 
       {/* Main Content Stage: Custom Video Player or Photo Container */}
-      <div className={`relative flex-1 flex flex-col items-center justify-center overflow-hidden w-full ${project.videoUrl ? 'p-0' : 'p-2 md:p-4'}`}>
+      <div className={`relative flex-1 flex flex-col items-center justify-center w-full p-4 md:p-6 overflow-y-auto`}>
         {project.videoUrl ? (
-          <div className="absolute inset-0 z-20">
+          <div className="w-full max-w-4xl mx-auto rounded-xl shadow-2xl">
             <CustomVideoPlayer
               videoUrl={project.videoUrl}
               posterUrl={project.imageUrl}

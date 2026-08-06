@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, Download, Mail, Phone, MapPin, CheckCircle2 } from 'lucide-react';
+import { X, Send, Mail, Phone, CheckCircle2 } from 'lucide-react';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -10,20 +10,48 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
+    phone: '',
     email: '',
-    category: 'Chalets & Hotels',
+    category: 'Hotels',
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      onClose();
-    }, 2500);
+    setLoading(true);
+
+    try {
+      await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: '50dab767-3aab-44c6-a761-2d7fcaeb8baa',
+          subject: '🔔 Portfolio Inquiry - IRIS Media Production',
+          from_name: formData.name,
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          service: formData.category,
+          message: formData.message
+        })
+      });
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        onClose();
+      }, 2500);
+    } catch {
+      setSubmitted(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,10 +71,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
             PORTFOLIO INQUIRIES & COMMISSIONS
           </span>
           <h2 className="font-serif-heading text-3xl font-normal tracking-wide text-neutral-900">
-            IRIS Photography
+            IRIS Media Production
           </h2>
           <p className="text-xs text-neutral-500 mt-2 leading-relaxed">
-            Request our complete confidential high-resolution portfolio deck or commission architectural & luxury maritime photography services.
+            Request our complete confidential high-resolution portfolio deck or commission architectural & luxury maritime production services.
           </p>
         </div>
 
@@ -57,7 +85,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
               Inquiry Sent Successfully
             </h3>
             <p className="text-xs text-neutral-500 max-w-md mx-auto">
-              Thank you for contacting IRIS Photography. Our director will reach out with the complete portfolio catalog shortly.
+              Thank you for contacting IRIS Media Production. Our director will reach out with the complete portfolio catalog shortly.
             </p>
           </div>
         ) : (
@@ -93,19 +121,33 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
 
               <div>
                 <label className="block uppercase tracking-wider font-semibold text-[10px] text-neutral-500 mb-1">
-                  Area of Interest
+                  Phone / WhatsApp Number
                 </label>
-                <select
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                <input
+                  type="tel"
+                  required
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="+20 102 887 5361"
                   className="w-full px-3.5 py-2.5 rounded border border-neutral-200 focus:outline-none focus:border-neutral-900 text-neutral-800 bg-neutral-50/50"
-                >
-                  <option value="Chalets & Hotels">Chalets & Hotels</option>
-                  <option value="Marine & Superyachts">Marine & Superyachts</option>
-                  <option value="Ritual & Desert Architecture">Ritual & Desert Architecture</option>
-                  <option value="Commercial & Editorial">Commercial & Editorial</option>
-                </select>
+                />
               </div>
+            </div>
+
+            <div>
+              <label className="block uppercase tracking-wider font-semibold text-[10px] text-neutral-500 mb-1">
+                Area of Interest
+              </label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded border border-neutral-200 focus:outline-none focus:border-neutral-900 text-neutral-800 bg-neutral-50/50"
+              >
+                <option value="Hotels">Hotels & Luxury Resorts</option>
+                <option value="Nile Cruise">Nile Cruise Productions</option>
+                <option value="Nile Dahabiya">Nile Dahabiya Heritage</option>
+                <option value="Commercial & Editorial">Commercial & Editorial</option>
+              </select>
             </div>
 
             <div>
@@ -125,19 +167,32 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full sm:w-auto px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-white font-semibold uppercase tracking-wider rounded text-[11px] transition-all flex items-center justify-center gap-2"
               >
-                <span>Request Full Portfolio</span>
+                <span>{loading ? 'Sending...' : 'Request Full Portfolio'}</span>
                 <Send size={14} />
               </button>
 
               <div className="flex items-center gap-4 text-[10px] text-neutral-400 font-mono">
-                <span className="flex items-center gap-1">
-                  <Mail size={12} /> info@iris-photography.com
-                </span>
-                <span className="flex items-center gap-1">
-                  <MapPin size={12} /> Zurich | Dubai
-                </span>
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=irismediaproduction01@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 hover:text-neutral-900 transition-colors"
+                  title="Open Gmail Compose"
+                >
+                  <Mail size={12} /> irismediaproduction01@gmail.com
+                </a>
+                <a
+                  href="https://wa.me/201274795553"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 hover:text-neutral-900 transition-colors"
+                  title="WhatsApp Direct"
+                >
+                  <Phone size={12} /> +20 12 74795553
+                </a>
               </div>
             </div>
           </form>

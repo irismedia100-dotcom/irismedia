@@ -79,7 +79,7 @@ export const CHALETS_HOTELS_PROJECTS: PortfolioItem[] = [
     category: 'Hotels',
     categoryId: 'hotels',
     type: 'video',
-    videoUrl: '/videos/11.mp4',
+    videoUrl: 'https://res.cloudinary.com/zve7as6v/video/upload/v1785942176/44_sngsof.mp4',
     location: 'Kitzbühel, Austria',
     year: '2024',
     designer: 'Tirol Design Group',
