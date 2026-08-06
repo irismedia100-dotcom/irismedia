@@ -2448,5 +2448,25 @@ export const RITUAL_PROJECTS: PortfolioItem[] = [
       "client": "Nebu Ra Dahabiya",
       "specs": "Spatial, Dining & Drone Cinematography"
     }
+  },
+  {
+    "id": "nebu-ra-video",
+    "title": "Nebu Ra",
+    "category": "Nile Dahabiya",
+    "categoryId": "nile-dahabiya",
+    "type": "video",
+    "videoUrl": "https://vimeo.com/1216186095",
+    "location": "The Nile, Egypt",
+    "year": "2025",
+    "designer": "IRIS Media Production",
+    "lighting": "Natural Dusk & Golden Hour Nile",
+    "imageUrl": "/projects/nebu-ra/nebura_45eb04f9c99c.jpg",
+    "aspectRatio": "horizontal",
+    "description": "Cinematic film capturing the bespoke heritage sailing experience aboard the Nebu Ra luxury Nile Dahabiya, crafted by IRIS Media Production.",
+    "details": {
+      "architect": "Heritage Nile Shipwrights",
+      "client": "Nebu Ra Dahabiya",
+      "specs": "Cinematic Film Production"
+    }
   }
 ];
