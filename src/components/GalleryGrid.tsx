@@ -104,17 +104,17 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* Natural Aspect Ratio Masonry Grid */}
-      <div className="columns-1 sm:columns-2 md:columns-4 gap-4 space-y-4">
+      {/* Strict Left-to-Right Row Order Grid (1, 2, 3, 4 -> 5, 6, 7, 8) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 items-start gap-4">
         {projectsToDisplay.map((project) => {
           return (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
               onContextMenu={(e) => e.preventDefault()}
-              className="break-inside-avoid group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
+              className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
             >
-              {/* Image Wrapper with natural height */}
+              {/* Image Wrapper with natural ratio */}
               <div className="relative w-full h-auto overflow-hidden">
                 <img
                   src={project.imageUrl}
@@ -139,16 +139,6 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   className="absolute inset-0 z-10 bg-transparent"
                   onContextMenu={(e) => e.preventDefault()}
                 />
-              </div>
-
-              {/* Bottom Title & Year Caption Bar */}
-              <div className="p-2.5 bg-white border-t border-neutral-100 flex items-center justify-between">
-                <span className="text-xs font-semibold text-neutral-800 tracking-tight">
-                  {project.title}
-                </span>
-                <span className="text-[10px] text-neutral-400 uppercase tracking-widest font-mono">
-                  {project.year}
-                </span>
               </div>
             </div>
           );
