@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -10,10 +10,11 @@ import {
   Info,
   Share2,
   X,
-  Check
+  Check,
+  Gauge
 } from 'lucide-react';
 import type { PortfolioItem } from '../data/portfolio';
-import { CustomVideoPlayer } from './CustomVideoPlayer';
+import { CustomVideoPlayer, type CustomVideoPlayerHandle } from './CustomVideoPlayer';
 
 interface LightboxModalProps {
   project: PortfolioItem | null;
@@ -34,10 +35,12 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
   const totalCount = allProjects.length;
 
   const [isPlaying, setIsPlaying] = useState(false);
-  // Default showInfo to false
   const [showInfo, setShowInfo] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [showQualityMenu, setShowQualityMenu] = useState(false);
+  const [selectedQuality, setSelectedQuality] = useState<number | string | null>(null);
+  const videoPlayerRef = useRef<CustomVideoPlayerHandle>(null);
 
   // Keyboard navigation
   useEffect(() => {
@@ -136,6 +139,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         {project.videoUrl ? (
           <div className="w-full max-w-4xl mx-auto rounded-xl shadow-2xl">
             <CustomVideoPlayer
+              ref={videoPlayerRef}
               videoUrl={project.videoUrl}
               posterUrl={project.imageUrl}
               title={project.title}
@@ -263,6 +267,58 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
               <Share2 size={17} />
             )}
           </button>
+
+          {/* Quality Selector — visible only for video items */}
+          {project.videoUrl && (
+            <div className="relative">
+              <button
+                onClick={() => setShowQualityMenu(!showQualityMenu)}
+                className={`p-1 sm:p-1.5 transition-colors flex items-center gap-1 ${
+                  showQualityMenu ? 'text-neutral-900 bg-neutral-100 rounded-full' : 'hover:text-neutral-900'
+                }`}
+                title="اختر جودة الفيديو"
+              >
+                <Gauge size={17} />
+                {selectedQuality && (
+                  <span className="text-[9px] font-bold uppercase tracking-wider hidden sm:inline">
+                    {selectedQuality}
+                  </span>
+                )}
+              </button>
+
+              {/* Quality Dropdown */}
+              {showQualityMenu && (
+                <div className="absolute bottom-10 right-0 bg-white border border-neutral-200 rounded-xl shadow-2xl py-2 min-w-[110px] z-50">
+                  <p className="text-[9px] uppercase tracking-widest text-neutral-400 font-semibold px-3 pb-1.5 border-b border-neutral-100">
+                    الجودة
+                  </p>
+                  {(videoPlayerRef.current?.qualityOptions ?? [2160, 1440, 1080, 720, 480, 360]).map((q) => {
+                    const label = typeof q === 'number'
+                      ? q === 2160 ? '4K' : q === 1440 ? '2K' : `${q}p`
+                      : String(q);
+                    const isActive = selectedQuality === q;
+                    return (
+                      <button
+                        key={String(q)}
+                        onClick={() => {
+                          videoPlayerRef.current?.setQuality(q);
+                          setSelectedQuality(q);
+                          setShowQualityMenu(false);
+                        }}
+                        className={`w-full text-left px-3 py-1.5 text-[11px] font-medium transition-colors ${
+                          isActive
+                            ? 'bg-neutral-900 text-white'
+                            : 'text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

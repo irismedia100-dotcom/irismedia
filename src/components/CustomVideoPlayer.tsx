@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 
@@ -6,6 +6,13 @@ interface CustomVideoPlayerProps {
   videoUrl: string;
   posterUrl?: string;
   title?: string;
+}
+
+/** Handle exposed to parent via ref */
+export interface CustomVideoPlayerHandle {
+  setQuality: (quality: number | string) => void;
+  isVimeo: boolean;
+  qualityOptions: (number | string)[];
 }
 
 /** Extract Vimeo video ID from various Vimeo URL formats */
@@ -20,9 +27,7 @@ function getQualitySources(url: string): { src: string; type: string; size: numb
   if (!url.includes('cloudinary.com')) {
     return [{ src: url, type: 'video/mp4', size: 720 }];
   }
-  // Strip any existing transformations and rebuild clean base URL
   const baseUrl = url.replace(/\/upload\/([a-zA-Z0-9_,]+\/)/, '/upload/');
-  // Order: 720p first so the browser loads the right full duration
   return [
     { src: baseUrl.replace('/upload/', '/upload/q_auto,h_720/'),  type: 'video/mp4', size: 720 },
     { src: baseUrl.replace('/upload/', '/upload/q_auto,h_360/'),  type: 'video/mp4', size: 360 },
@@ -33,11 +38,14 @@ function getQualitySources(url: string): { src: string; type: string; size: numb
   ];
 }
 
-export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
+const CLOUDINARY_QUALITY_OPTIONS: number[] = [2160, 1440, 1080, 720, 480, 360];
+const VIMEO_QUALITY_OPTIONS: string[] = ['4K', '1080p', '720p', '540p', '360p', '240p'];
+
+export const CustomVideoPlayer = forwardRef<CustomVideoPlayerHandle, CustomVideoPlayerProps>(({
   videoUrl,
   posterUrl,
   title = 'IRIS Video',
-}) => {
+}, ref) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const vimeoRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<Plyr | null>(null);
@@ -45,13 +53,24 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
   const vimeoId = videoUrl ? getVimeoId(videoUrl) : null;
   const isVimeo = !!vimeoId;
 
+  // Expose setQuality and metadata to parent via ref
+  useImperativeHandle(ref, () => ({
+    setQuality: (quality: number | string) => {
+      if (playerRef.current) {
+        try {
+          (playerRef.current as any).quality = quality;
+        } catch { /* ignore */ }
+      }
+    },
+    isVimeo,
+    qualityOptions: isVimeo ? VIMEO_QUALITY_OPTIONS : CLOUDINARY_QUALITY_OPTIONS,
+  }), [isVimeo]);
+
   useEffect(() => {
-    // Resolve Plyr constructor (handles both ESM default and CJS exports)
     const PlyrClass = (typeof Plyr === 'function'
       ? Plyr
       : (Plyr as unknown as { default: typeof Plyr }).default) as typeof Plyr;
 
-    // Destroy any existing Plyr instance
     if (playerRef.current) {
       try { playerRef.current.destroy(); } catch { /* ignore */ }
       playerRef.current = null;
@@ -60,21 +79,12 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
     const timer = setTimeout(() => {
       try {
         if (isVimeo && vimeoRef.current) {
-          // ── Vimeo embed via Plyr's built-in Vimeo provider ──
           const player = new PlyrClass(vimeoRef.current, {
             controls: [
-              'play-large',
-              'play',
-              'progress',
-              'current-time',
-              'duration',
-              'mute',
-              'volume',
-              'settings',
-              'fullscreen',
+              'play-large', 'play', 'progress', 'current-time',
+              'duration', 'mute', 'volume', 'settings', 'fullscreen',
             ],
             settings: ['quality', 'speed'],
-            // Vimeo quality uses string labels (not numbers)
             quality: {
               default: '1080p' as any,
               options: ['4K', '1080p', '720p', '540p', '360p', '240p'] as any,
@@ -94,13 +104,9 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
           playerRef.current = player;
 
         } else if (videoRef.current && videoUrl) {
-          // ── Cloudinary / direct MP4 via Plyr ──
           const video = videoRef.current;
-
-          // Clear existing source children
           while (video.firstChild) video.removeChild(video.firstChild);
 
-          // Build <source> elements with 'size' attribute so Plyr detects quality options
           const sources = getQualitySources(videoUrl);
           sources.forEach(({ src, type, size }) => {
             const el = document.createElement('source');
@@ -115,17 +121,8 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
 
           const player = new PlyrClass(video, {
             controls: [
-              'play-large',
-              'play',
-              'progress',
-              'current-time',
-              'duration',
-              'mute',
-              'volume',
-              'settings',
-              'pip',
-              'airplay',
-              'fullscreen',
+              'play-large', 'play', 'progress', 'current-time',
+              'duration', 'mute', 'volume', 'settings', 'pip', 'airplay', 'fullscreen',
             ],
             settings: ['quality', 'speed'],
             quality: {
@@ -175,7 +172,6 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
       onDragStart={(e) => e.preventDefault()}
     >
       {isVimeo ? (
-        /* Plyr targets this div and injects the Vimeo iframe inside */
         <div
           ref={vimeoRef}
           data-plyr-provider="vimeo"
@@ -183,7 +179,6 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
           aria-label={title}
         />
       ) : (
-        /* Plyr wraps this video element and takes over the controls */
         <video
           ref={videoRef}
           playsInline
@@ -194,4 +189,6 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
       )}
     </div>
   );
-};
+});
+
+CustomVideoPlayer.displayName = 'CustomVideoPlayer';
