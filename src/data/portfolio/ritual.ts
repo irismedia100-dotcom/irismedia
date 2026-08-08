@@ -2455,7 +2455,7 @@ export const RITUAL_PROJECTS: PortfolioItem[] = [
     "category": "Nile Dahabiya",
     "categoryId": "nile-dahabiya",
     "type": "video",
-    "videoUrl": "https://player.vimeo.com/video/1216186095?badge=0&autopause=0&player_id=0&app_id=58479",
+    "videoUrl": "https://res.cloudinary.com/zve7as6v/video/upload/v1785942176/44_sngsof.mp4",
     "location": "The Nile, Egypt",
     "year": "2025",
     "designer": "IRIS Media Production",
