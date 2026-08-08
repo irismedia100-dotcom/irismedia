@@ -100,8 +100,8 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* Masonry Photo Grid */}
-      <div className="masonry-grid">
+      {/* 4-Column Photo Grid */}
+      <div className="grid md:grid-cols-4 gap-3">
         {projectsToDisplay.map((project) => {
           return (
             <div
