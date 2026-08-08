@@ -104,18 +104,18 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* 4-Column Photo Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Natural Aspect Ratio Masonry Grid */}
+      <div className="columns-1 sm:columns-2 md:columns-4 gap-4 space-y-4">
         {projectsToDisplay.map((project) => {
           return (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
               onContextMenu={(e) => e.preventDefault()}
-              className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-900 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container aspect-[4/3] w-full"
+              className="break-inside-avoid group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
             >
-              {/* Image Wrapper */}
-              <div className="relative w-full h-full overflow-hidden">
+              {/* Image Wrapper with natural height */}
+              <div className="relative w-full h-auto overflow-hidden">
                 <img
                   src={project.imageUrl}
                   alt={project.title}
@@ -124,7 +124,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   onError={() => {
                     setBrokenImageIds((prev) => new Set(prev).add(project.id));
                   }}
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none"
+                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none block"
                 />
 
                 {/* Video Play Badge Indicator */}
