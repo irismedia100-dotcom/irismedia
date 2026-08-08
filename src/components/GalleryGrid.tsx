@@ -104,17 +104,18 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* True Masonry — Pinterest-style, no gaps, natural proportions */}
-      <div className="columns-2 md:columns-4 gap-3">
+      {/* Natural Aspect Ratio Masonry Grid */}
+      <div className="columns-1 sm:columns-2 md:columns-4 gap-4 space-y-4">
         {projectsToDisplay.map((project) => {
           return (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
               onContextMenu={(e) => e.preventDefault()}
-              className="break-inside-avoid mb-3 group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-lg transition-all duration-500 protected-image-container w-full"
+              className="break-inside-avoid group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
             >
-              <div className="relative w-full overflow-hidden">
+              {/* Image Wrapper with natural height */}
+              <div className="relative w-full h-auto overflow-hidden">
                 <img
                   src={project.imageUrl}
                   alt={project.title}
@@ -123,17 +124,17 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   onError={() => {
                     setBrokenImageIds((prev) => new Set(prev).add(project.id));
                   }}
-                  className="w-full h-auto object-cover block transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none"
+                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none block"
                 />
 
-                {/* Video Play Badge */}
+                {/* Video Play Badge Indicator */}
                 {project.type === 'video' && (
                   <div className="absolute top-3 left-3 z-15 bg-black/70 backdrop-blur-md text-white p-2.5 rounded-full shadow-lg border border-white/20">
                     <Play size={14} fill="currentColor" />
                   </div>
                 )}
 
-                {/* Anti-Theft Shield */}
+                {/* Anti-Theft Shield Overlay */}
                 <div
                   className="absolute inset-0 z-10 bg-transparent"
                   onContextMenu={(e) => e.preventDefault()}
