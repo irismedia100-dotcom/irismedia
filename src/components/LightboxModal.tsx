@@ -181,83 +181,89 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
       </div>
 
       {/* Bottom Control Bar */}
-      <div className="py-4 md:py-5 px-4 md:px-12 bg-white border-t border-neutral-100 flex items-center justify-center gap-5 md:gap-9 text-neutral-500 select-none z-30 shrink-0">
-        {/* Previous Arrow */}
-        <button
-          onClick={handlePrev}
-          className="p-1.5 hover:text-neutral-900 transition-colors"
-          title="Previous Photo (Or Right-Click Image)"
-        >
-          <ChevronLeft size={20} />
-        </button>
+      <div className="py-3 md:py-5 px-3 md:px-12 bg-white border-t border-neutral-100 flex items-center justify-center gap-2 sm:gap-6 md:gap-9 text-neutral-500 select-none z-30 shrink-0 flex-wrap sm:flex-nowrap">
+        {/* Navigation Group */}
+        <div className="flex items-center gap-1 sm:gap-3">
+          {/* Previous Arrow */}
+          <button
+            onClick={handlePrev}
+            className="p-1 sm:p-1.5 hover:text-neutral-900 transition-colors"
+            title="Previous Photo (Or Right-Click Image)"
+          >
+            <ChevronLeft size={18} />
+          </button>
 
-        {/* Index Counter */}
-        <span className="text-xs font-mono text-neutral-600 min-w-[70px] text-center tracking-wider font-medium">
-          {currentIndex + 1} of {totalCount}
-        </span>
+          {/* Index Counter */}
+          <span className="text-[11px] sm:text-xs font-mono text-neutral-600 min-w-[55px] sm:min-w-[70px] text-center tracking-wider font-medium">
+            {currentIndex + 1} of {totalCount}
+          </span>
 
-        {/* Next Arrow */}
-        <button
-          onClick={handleNext}
-          className="p-1.5 hover:text-neutral-900 transition-colors"
-          title="Next Photo (Or Left-Click Image)"
-        >
-          <ChevronRight size={20} />
-        </button>
+          {/* Next Arrow */}
+          <button
+            onClick={handleNext}
+            className="p-1 sm:p-1.5 hover:text-neutral-900 transition-colors"
+            title="Next Photo (Or Left-Click Image)"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
 
-        <div className="h-4 w-px bg-neutral-200 mx-1" />
+        <div className="h-4 w-px bg-neutral-200 hidden sm:block" />
 
-        {/* Grid View Toggle */}
-        <button
-          onClick={onClose}
-          className="p-1.5 hover:text-neutral-900 transition-colors"
-          title="Back to Grid View"
-        >
-          <Grid size={18} />
-        </button>
+        {/* Tools Action Group */}
+        <div className="flex items-center gap-1.5 sm:gap-4">
+          {/* Grid View Toggle */}
+          <button
+            onClick={onClose}
+            className="p-1 sm:p-1.5 hover:text-neutral-900 transition-colors"
+            title="Back to Grid View"
+          >
+            <Grid size={17} />
+          </button>
 
-        {/* Play / Pause Slideshow */}
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
-          className={`p-1.5 transition-colors ${isPlaying ? 'text-neutral-900 font-bold' : 'hover:text-neutral-900'}`}
-          title={isPlaying ? 'Pause Slideshow' : 'Play Slideshow'}
-        >
-          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-        </button>
+          {/* Play / Pause Slideshow */}
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className={`p-1 sm:p-1.5 transition-colors ${isPlaying ? 'text-neutral-900 font-bold' : 'hover:text-neutral-900'}`}
+            title={isPlaying ? 'Pause Slideshow' : 'Play Slideshow'}
+          >
+            {isPlaying ? <Pause size={17} /> : <Play size={17} />}
+          </button>
 
-        {/* Fullscreen Toggle */}
-        <button
-          onClick={toggleFullscreen}
-          className="p-1.5 hover:text-neutral-900 transition-colors"
-          title="Toggle Fullscreen"
-        >
-          {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-        </button>
+          {/* Fullscreen Toggle */}
+          <button
+            onClick={toggleFullscreen}
+            className="p-1 sm:p-1.5 hover:text-neutral-900 transition-colors"
+            title="Toggle Fullscreen"
+          >
+            {isFullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}
+          </button>
 
-        {/* Info Toggle Button (Click to show/hide Info description line) */}
-        <button
-          onClick={() => setShowInfo(!showInfo)}
-          className={`p-1.5 transition-colors ${showInfo ? 'text-neutral-900 font-bold bg-neutral-100 rounded-full' : 'hover:text-neutral-900'}`}
-          title="Toggle Photo Description"
-        >
-          <Info size={18} />
-        </button>
+          {/* Info Toggle Button */}
+          <button
+            onClick={() => setShowInfo(!showInfo)}
+            className={`p-1 sm:p-1.5 transition-colors ${showInfo ? 'text-neutral-900 font-bold bg-neutral-100 rounded-full' : 'hover:text-neutral-900'}`}
+            title="Toggle Photo Description"
+          >
+            <Info size={17} />
+          </button>
 
-        {/* Share Button (Copies direct link to image) */}
-        <button
-          onClick={handleShare}
-          className="p-1.5 hover:text-neutral-900 transition-colors relative flex items-center gap-1.5"
-          title="Share direct link to this image"
-        >
-          {copiedLink ? (
-            <>
-              <Check size={18} className="text-emerald-600" />
-              <span className="text-[10px] text-emerald-600 font-semibold uppercase tracking-wider">Copied!</span>
-            </>
-          ) : (
-            <Share2 size={18} />
-          )}
-        </button>
+          {/* Share Button */}
+          <button
+            onClick={handleShare}
+            className="p-1 sm:p-1.5 hover:text-neutral-900 transition-colors relative flex items-center gap-1"
+            title="Share direct link to this image"
+          >
+            {copiedLink ? (
+              <>
+                <Check size={17} className="text-emerald-600" />
+                <span className="text-[9px] text-emerald-600 font-semibold uppercase tracking-wider hidden sm:inline">Copied!</span>
+              </>
+            ) : (
+              <Share2 size={17} />
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

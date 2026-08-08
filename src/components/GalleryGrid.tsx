@@ -31,12 +31,21 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
 
   const currentCategoryInfo = CATEGORIES_DATA.find((c) => c.id === activeCategory);
 
+  const [mediaFilter, setMediaFilter] = React.useState<'all' | 'photo' | 'video'>('all');
+
+  // Apply media filter if selected
+  if (mediaFilter === 'photo') {
+    projectsToDisplay = projectsToDisplay.filter((p) => p.type !== 'video');
+  } else if (mediaFilter === 'video') {
+    projectsToDisplay = projectsToDisplay.filter((p) => p.type === 'video');
+  }
+
   return (
-    <div className="w-full min-h-screen bg-white p-6 md:p-10 select-none">
+    <div className="w-full min-h-screen bg-white p-4 md:p-10 select-none">
       {/* Category Sub-heading */}
-      <div className="mb-8 border-b border-neutral-100 pb-4 flex items-baseline justify-between">
+      <div className="mb-8 border-b border-neutral-100 pb-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
         <div>
-          <h2 className="font-serif-heading text-2xl font-normal text-neutral-900 tracking-wide">
+          <h2 className="font-serif-heading text-xl md:text-2xl font-normal text-neutral-900 tracking-wide">
             {selectedItem
               ? selectedItem.title
               : activeCategory === 'all'
@@ -49,9 +58,46 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
               : currentCategoryInfo?.subtitle}
           </p>
         </div>
-        <span className="text-xs font-mono text-neutral-400">
-          {projectsToDisplay.length} Works
-        </span>
+
+        {/* Media Filter Tabs & Count */}
+        <div className="flex items-center gap-3 self-end sm:self-auto">
+          <div className="flex items-center bg-neutral-100 p-1 rounded-full text-[11px] font-medium text-neutral-600">
+            <button
+              onClick={() => setMediaFilter('all')}
+              className={`px-3 py-1 rounded-full transition-all ${
+                mediaFilter === 'all'
+                  ? 'bg-neutral-900 text-white shadow-sm'
+                  : 'hover:text-neutral-900'
+              }`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setMediaFilter('photo')}
+              className={`px-3 py-1 rounded-full transition-all ${
+                mediaFilter === 'photo'
+                  ? 'bg-neutral-900 text-white shadow-sm'
+                  : 'hover:text-neutral-900'
+              }`}
+            >
+              Photos
+            </button>
+            <button
+              onClick={() => setMediaFilter('video')}
+              className={`px-3 py-1 rounded-full transition-all ${
+                mediaFilter === 'video'
+                  ? 'bg-neutral-900 text-white shadow-sm'
+                  : 'hover:text-neutral-900'
+              }`}
+            >
+              Videos
+            </button>
+          </div>
+
+          <span className="text-xs font-mono text-neutral-400 whitespace-nowrap">
+            {projectsToDisplay.length} Works
+          </span>
+        </div>
       </div>
 
       {/* Masonry Photo Grid */}

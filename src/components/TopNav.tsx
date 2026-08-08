@@ -10,7 +10,7 @@ interface TopNavProps {
 
 export const TopNav: React.FC<TopNavProps> = ({ activeCategory, onSelectCategory, onNavigateHome }) => {
   return (
-    <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-neutral-100 py-4 px-6 md:px-10 flex items-center justify-between select-none">
+    <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-neutral-100 py-3 md:py-4 px-4 pl-14 md:px-10 flex items-center justify-between select-none">
       {/* Home button — returns to landing page */}
       {onNavigateHome && (
         <button
@@ -23,7 +23,7 @@ export const TopNav: React.FC<TopNavProps> = ({ activeCategory, onSelectCategory
         </button>
       )}
 
-      <nav className="flex items-center gap-2 md:gap-3 flex-wrap ml-auto">
+      <nav className="flex items-center gap-1.5 sm:gap-3 flex-wrap ml-auto overflow-x-auto no-scrollbar py-1">
         {/* ALL PORTFOLIO Button */}
         <button
           onClick={() => onSelectCategory('all')}

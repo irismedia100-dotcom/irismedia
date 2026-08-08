@@ -70,8 +70,19 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
               'duration',
               'mute',
               'volume',
+              'settings',
               'fullscreen',
             ],
+            settings: ['quality', 'speed'],
+            speed: {
+              selected: 1,
+              options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
+            },
+            i18n: {
+              quality: 'الجودة',
+              speed: 'السرعة',
+              normal: 'عادي',
+            },
             ratio: '16:9',
           });
           playerRef.current = player;
