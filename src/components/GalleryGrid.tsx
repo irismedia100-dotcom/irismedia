@@ -32,6 +32,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
   const currentCategoryInfo = CATEGORIES_DATA.find((c) => c.id === activeCategory);
 
   const [mediaFilter, setMediaFilter] = React.useState<'all' | 'photo' | 'video'>('all');
+  const [brokenImageIds, setBrokenImageIds] = React.useState<Set<string>>(new Set());
 
   // Apply media filter if selected
   if (mediaFilter === 'photo') {
@@ -39,6 +40,9 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
   } else if (mediaFilter === 'video') {
     projectsToDisplay = projectsToDisplay.filter((p) => p.type === 'video');
   }
+
+  // Filter out any broken images
+  projectsToDisplay = projectsToDisplay.filter((p) => !brokenImageIds.has(p.id));
 
   return (
     <div className="w-full min-h-screen bg-white p-4 md:p-10 select-none">
@@ -117,6 +121,9 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   alt={project.title}
                   loading="lazy"
                   onDragStart={(e) => e.preventDefault()}
+                  onError={() => {
+                    setBrokenImageIds((prev) => new Set(prev).add(project.id));
+                  }}
                   className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none"
                 />
 
@@ -133,35 +140,12 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   onContextMenu={(e) => e.preventDefault()}
                 />
 
-                {/* Hover Overlay with Details */}
-                <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-5 text-white">
-                  <div className="flex justify-end">
-                    <span className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-                      <Eye size={16} />
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase tracking-widest text-neutral-300 block mb-1 font-semibold">
-                      {project.category}
-                    </span>
-                    <h3 className="font-serif-heading text-lg font-medium text-white leading-snug">
-                      {project.title}
-                    </h3>
-                    <p className="text-xs text-neutral-300 mt-1 font-light">
-                      {project.location} — {project.year}
-                    </p>
-                  </div>
+                {/* Hover Overlay — Clean icon preview */}
+                <div className="absolute inset-0 z-20 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white">
+                  <span className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                    <Eye size={18} />
+                  </span>
                 </div>
-              </div>
-
-              {/* Bottom Caption */}
-              <div className="p-3 bg-white border-t border-neutral-100 flex items-center justify-between">
-                <span className="text-xs font-semibold text-neutral-800 tracking-tight">
-                  {project.title}
-                </span>
-                <span className="text-[10px] text-neutral-400 uppercase tracking-widest font-mono">
-                  {project.year}
-                </span>
               </div>
             </div>
           );
