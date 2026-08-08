@@ -74,6 +74,12 @@ export const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({
               'fullscreen',
             ],
             settings: ['quality', 'speed'],
+            // Vimeo quality uses string labels (not numbers)
+            quality: {
+              default: '1080p' as any,
+              options: ['4K', '1080p', '720p', '540p', '360p', '240p'] as any,
+              forced: true,
+            },
             speed: {
               selected: 1,
               options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
