@@ -30,11 +30,12 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onExplore }) => {
       {/* Main Headline Text */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 text-center flex flex-col items-center justify-center">
         <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white uppercase leading-[1.15] drop-shadow-2xl max-w-4xl">
-          WE DON’T JUST SHOOT — WE CRAFT MOMENTS.
+          WE DON’T JUST SHOOT
+          <br /> WE CRAFT MOMENTS.
         </h1>
 
         <p className="mt-4 text-xs sm:text-sm md:text-base text-neutral-300 font-light tracking-widest uppercase max-w-xl drop-shadow">
-          360° Integrated Luxury Media & Hospitality Production
+          Luxury visuals for spaces that speak: hotels, cruises & iconic destinations.
         </p>
       </div>
 
