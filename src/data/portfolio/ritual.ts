@@ -2460,7 +2460,7 @@ export const RITUAL_PROJECTS: PortfolioItem[] = [
     "year": "2025",
     "designer": "IRIS Media Production",
     "lighting": "Natural Dusk & Golden Hour Nile",
-    "imageUrl": "/projects/nebu-ra/nebura_45eb04f9c99c.jpg",
+    "imageUrl": "/projects/nebu-ra/nebura_478422d36190.jpg",
     "aspectRatio": "horizontal",
     "description": "Cinematic film capturing the bespoke heritage sailing experience aboard the Nebu Ra luxury Nile Dahabiya, crafted by IRIS Media Production.",
     "details": {
