@@ -35,7 +35,9 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onExplore }) => {
         </h1>
 
         <p className="mt-4 text-xs sm:text-sm md:text-base text-neutral-300 font-light tracking-widest uppercase max-w-xl drop-shadow">
-          Luxury visuals for spaces that speak: hotels, cruises & iconic destinations.
+          Luxury visuals for spaces that inspire.
+          <br />
+          Hotels, cruises & iconic destinations.
         </p>
       </div>
 
