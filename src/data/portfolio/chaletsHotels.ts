@@ -2800,7 +2800,7 @@ export const CHALETS_HOTELS_PROJECTS: PortfolioItem[] = [
     "year": "2025",
     "designer": "IRIS Media Production",
     "lighting": "Ambient Luxury & Spatial Lighting",
-    "imageUrl": "/projects/opal-legacy/opal_45932725dbe8.jpg",
+    "imageUrl": "",
     "aspectRatio": "horizontal",
     "description": "Luxury hospitality visuals captured with precision by IRIS Media Production.",
     "details": {
