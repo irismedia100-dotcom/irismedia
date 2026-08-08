@@ -104,18 +104,17 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* Strict Left-to-Right Row Order Grid (1, 2, 3, 4 -> 5, 6, 7, 8) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 items-start gap-4">
+      {/* True Masonry — Pinterest-style, no gaps, natural proportions */}
+      <div className="columns-2 md:columns-4 gap-3">
         {projectsToDisplay.map((project) => {
           return (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
               onContextMenu={(e) => e.preventDefault()}
-              className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
+              className="break-inside-avoid mb-3 group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-lg transition-all duration-500 protected-image-container w-full"
             >
-              {/* Image Wrapper with natural ratio */}
-              <div className="relative w-full h-auto overflow-hidden">
+              <div className="relative w-full overflow-hidden">
                 <img
                   src={project.imageUrl}
                   alt={project.title}
@@ -124,17 +123,17 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   onError={() => {
                     setBrokenImageIds((prev) => new Set(prev).add(project.id));
                   }}
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none block"
+                  className="w-full h-auto object-cover block transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none"
                 />
 
-                {/* Video Play Badge Indicator */}
+                {/* Video Play Badge */}
                 {project.type === 'video' && (
                   <div className="absolute top-3 left-3 z-15 bg-black/70 backdrop-blur-md text-white p-2.5 rounded-full shadow-lg border border-white/20">
                     <Play size={14} fill="currentColor" />
                   </div>
                 )}
 
-                {/* Anti-Theft Shield Overlay */}
+                {/* Anti-Theft Shield */}
                 <div
                   className="absolute inset-0 z-10 bg-transparent"
                   onContextMenu={(e) => e.preventDefault()}

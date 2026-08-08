@@ -157,7 +157,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
               src={project.imageUrl}
               alt={project.title}
               onDragStart={(e) => e.preventDefault()}
-              className="max-h-[82vh] max-w-[94vw] w-auto h-auto object-contain shadow-xl rounded-sm select-none pointer-events-none transition-all duration-300"
+              className="max-h-[85vh] max-w-[92vw] w-auto h-auto object-contain rounded-md shadow-2xl select-none pointer-events-none transition-all duration-300 block"
             />
 
             {/* Transparent Anti-Theft Overlay */}
