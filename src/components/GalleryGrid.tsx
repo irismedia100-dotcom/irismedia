@@ -105,17 +105,17 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
       </div>
 
       {/* 4-Column Photo Grid */}
-      <div className="grid md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {projectsToDisplay.map((project) => {
           return (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
               onContextMenu={(e) => e.preventDefault()}
-              className="masonry-item group relative cursor-pointer overflow-hidden rounded-sm bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container"
+              className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-900 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container aspect-[4/3] w-full"
             >
               {/* Image Wrapper */}
-              <div className="relative w-full overflow-hidden">
+              <div className="relative w-full h-full overflow-hidden">
                 <img
                   src={project.imageUrl}
                   alt={project.title}
@@ -124,12 +124,12 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   onError={() => {
                     setBrokenImageIds((prev) => new Set(prev).add(project.id));
                   }}
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none"
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none"
                 />
 
                 {/* Video Play Badge Indicator */}
                 {project.type === 'video' && (
-                  <div className="absolute top-3 left-3 z-15 bg-black/60 backdrop-blur-md text-white p-2 rounded-full shadow-lg">
+                  <div className="absolute top-3 left-3 z-15 bg-black/70 backdrop-blur-md text-white p-2.5 rounded-full shadow-lg border border-white/20">
                     <Play size={14} fill="currentColor" />
                   </div>
                 )}
@@ -139,13 +139,6 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   className="absolute inset-0 z-10 bg-transparent"
                   onContextMenu={(e) => e.preventDefault()}
                 />
-
-                {/* Hover Overlay — Clean icon preview */}
-                <div className="absolute inset-0 z-20 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white">
-                  <span className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-                    <Eye size={18} />
-                  </span>
-                </div>
               </div>
             </div>
           );
