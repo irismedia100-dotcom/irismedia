@@ -10,7 +10,7 @@ interface CustomVideoPlayerProps {
 
 /** Extract Vimeo video ID from various Vimeo URL formats */
 function getVimeoId(url: string): string | null {
-  const m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  const m = url.match(/(?:vimeo\.com\/video\/|vimeo\.com\/)(\d+)/);
   return m ? m[1] : null;
 }
 
