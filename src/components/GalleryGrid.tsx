@@ -140,6 +140,16 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
+
+              {/* Bottom Title & Year Caption Bar */}
+              <div className="p-2.5 bg-white border-t border-neutral-100 flex items-center justify-between">
+                <span className="text-xs font-semibold text-neutral-800 tracking-tight">
+                  {project.title}
+                </span>
+                <span className="text-[10px] text-neutral-400 uppercase tracking-widest font-mono">
+                  {project.year}
+                </span>
+              </div>
             </div>
           );
         })}
