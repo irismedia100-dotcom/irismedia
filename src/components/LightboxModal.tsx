@@ -135,7 +135,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
       </div>
 
       {/* Main Content Stage: Custom Video Player or Photo Container */}
-      <div className="relative flex-1 min-h-0 w-full flex items-center justify-center p-2 md:p-4 overflow-hidden">
+      <div className={`relative flex-1 flex flex-col items-center justify-center w-full p-4 md:p-6 overflow-y-auto`}>
         {project.videoUrl ? (
           <div className="w-full max-w-4xl mx-auto rounded-xl shadow-2xl">
             <CustomVideoPlayer
@@ -149,15 +149,15 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
           <div
             onClick={handleImageClick}
             onContextMenu={handleImageContextMenu}
-            className="relative flex items-center justify-center protected-image-container cursor-pointer max-w-full max-h-full h-full w-full"
+            className="relative flex items-center justify-center protected-image-container cursor-pointer w-full"
             title="Left Click for Next Photo | Right Click for Previous Photo"
           >
-            {/* Full natural dimensions photo without clipping */}
+            {/* Full natural frame dimensions */}
             <img
               src={project.imageUrl}
               alt={project.title}
               onDragStart={(e) => e.preventDefault()}
-              className="max-h-full max-w-full w-auto h-auto object-contain shadow-2xl rounded-sm select-none pointer-events-none transition-all duration-300 block mx-auto"
+              className="max-h-[90vh] max-w-[90vw] w-auto h-auto object-contain shadow-xl rounded-sm select-none pointer-events-none transition-all duration-300"
             />
 
             {/* Transparent Anti-Theft Overlay */}
