@@ -23,7 +23,7 @@ export const TopNav: React.FC<TopNavProps> = ({ activeCategory, onSelectCategory
         </button>
       )}
 
-      <nav className="flex items-center gap-1.5 sm:gap-3 flex-wrap ml-auto overflow-x-auto no-scrollbar py-1">
+      <nav className="flex items-center gap-1.5 sm:gap-3 ml-auto overflow-x-auto no-scrollbar py-1 flex-nowrap">
         {/* ALL PORTFOLIO Button */}
         <button
           onClick={() => onSelectCategory('all')}
