@@ -104,18 +104,18 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* Fixed 4-Column Masonry Grid — same on all devices */}
-      <div className="columns-4 gap-1.5 sm:gap-3 md:gap-4 space-y-1.5 sm:space-y-3 md:space-y-4">
+      {/* Fixed 4-Column Grid — same order on all devices, left to right */}
+      <div className="grid grid-cols-4 gap-1 sm:gap-2 md:gap-3">
         {projectsToDisplay.map((project) => {
           return (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
               onContextMenu={(e) => e.preventDefault()}
-              className="break-inside-avoid group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
+              className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
             >
-              {/* Image Wrapper with natural height */}
-              <div className="relative w-full h-auto overflow-hidden">
+              {/* Image with natural aspect ratio */}
+              <div className="relative w-full overflow-hidden">
                 <img
                   src={project.imageUrl}
                   alt={project.title}
