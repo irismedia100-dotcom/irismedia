@@ -1576,7 +1576,7 @@ export const RITUAL_PROJECTS: PortfolioItem[] = [
     "year": "2025",
     "designer": "IRIS Media Production",
     "lighting": "Natural Dusk & Golden Hour Nile",
-    "imageUrl": "/projects/nebu-ra/8.jpg",
+    "imageUrl": "/projects/nebu-ra/5.jpg",
     "aspectRatio": "vertical",
     "description": "Bespoke heritage sailing aboard the Nebu Ra luxury Nile Dahabiya, captured by IRIS Media Production.",
     "details": {
@@ -1594,7 +1594,7 @@ export const RITUAL_PROJECTS: PortfolioItem[] = [
     "year": "2025",
     "designer": "IRIS Media Production",
     "lighting": "Natural Dusk & Golden Hour Nile",
-    "imageUrl": "/projects/nebu-ra/5.jpg",
+    "imageUrl": "/projects/nebu-ra/11.jpg",
     "aspectRatio": "horizontal",
     "description": "Bespoke heritage sailing aboard the Nebu Ra luxury Nile Dahabiya, captured by IRIS Media Production.",
     "details": {
@@ -1631,24 +1631,6 @@ export const RITUAL_PROJECTS: PortfolioItem[] = [
     "designer": "IRIS Media Production",
     "lighting": "Natural Dusk & Golden Hour Nile",
     "imageUrl": "/projects/nebu-ra/10.jpg",
-    "aspectRatio": "horizontal",
-    "description": "Bespoke heritage sailing aboard the Nebu Ra luxury Nile Dahabiya, captured by IRIS Media Production.",
-    "details": {
-      "architect": "Heritage Nile Shipwrights",
-      "client": "Nebu Ra Dahabiya",
-      "specs": "Spatial, Dining & Drone Cinematography"
-    }
-  },
-  {
-    "id": "nebu-ra-9",
-    "title": "Nebu Ra",
-    "category": "Nile Dahabiya",
-    "categoryId": "nile-dahabiya",
-    "location": "The Nile, Egypt",
-    "year": "2025",
-    "designer": "IRIS Media Production",
-    "lighting": "Natural Dusk & Golden Hour Nile",
-    "imageUrl": "/projects/nebu-ra/11.jpg",
     "aspectRatio": "horizontal",
     "description": "Bespoke heritage sailing aboard the Nebu Ra luxury Nile Dahabiya, captured by IRIS Media Production.",
     "details": {
