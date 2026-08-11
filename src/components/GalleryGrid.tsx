@@ -104,8 +104,8 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* Natural Aspect Ratio Masonry Grid */}
-      <div className="columns-1 sm:columns-2 md:columns-4 gap-4 space-y-4">
+      {/* Fixed 4-Column Masonry Grid — same on all devices */}
+      <div className="columns-4 gap-1.5 sm:gap-3 md:gap-4 space-y-1.5 sm:space-y-3 md:space-y-4">
         {projectsToDisplay.map((project) => {
           return (
             <div
