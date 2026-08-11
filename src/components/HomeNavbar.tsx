@@ -48,38 +48,27 @@ export const HomeNavbar: React.FC<HomeNavbarProps> = ({
             />
           </button>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 lg:gap-10">
-            <button
-              onClick={onNavigateHome}
-              className="text-[12px] font-bold tracking-[0.2em] text-white hover:text-neutral-300 transition-colors uppercase py-1 relative group"
-            >
-              HOME
-              <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-white transform scale-x-100 transition-transform duration-300" />
-            </button>
-
+          {/* Navigation Links — Desktop & Mobile visible directly */}
+          <nav className="flex items-center gap-3 sm:gap-6 md:gap-8 lg:gap-10 overflow-x-auto no-scrollbar py-1">
             <button
               onClick={() => onNavigateCategory('hotels')}
-              className="text-[12px] font-bold tracking-[0.2em] text-neutral-300 hover:text-white transition-colors uppercase py-1 relative group"
+              className="text-[10px] sm:text-[12px] font-bold tracking-[0.15em] text-neutral-300 hover:text-white transition-colors uppercase whitespace-nowrap py-1 relative group"
             >
               HOTELS
-              <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             </button>
 
             <button
               onClick={() => onNavigateCategory('nile-cruise')}
-              className="text-[12px] font-bold tracking-[0.2em] text-neutral-300 hover:text-white transition-colors uppercase py-1 relative group"
+              className="text-[10px] sm:text-[12px] font-bold tracking-[0.15em] text-neutral-300 hover:text-white transition-colors uppercase whitespace-nowrap py-1 relative group"
             >
               NILE CRUISE
-              <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             </button>
 
             <button
               onClick={() => onNavigateCategory('nile-dahabiya')}
-              className="text-[12px] font-bold tracking-[0.2em] text-neutral-300 hover:text-white transition-colors uppercase py-1 relative group"
+              className="text-[10px] sm:text-[12px] font-bold tracking-[0.15em] text-neutral-300 hover:text-white transition-colors uppercase whitespace-nowrap py-1 relative group"
             >
               NILE DAHABIYA
-              <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             </button>
           </nav>
 
@@ -92,15 +81,6 @@ export const HomeNavbar: React.FC<HomeNavbarProps> = ({
               LET'S TALK
             </button>
           </div>
-
-          {/* Mobile Hamburger Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-full border border-white/20 text-white bg-black/50 hover:bg-black/80 transition-colors focus:outline-none"
-            aria-label="Toggle Navigation Menu"
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
         </div>
       </header>
 
