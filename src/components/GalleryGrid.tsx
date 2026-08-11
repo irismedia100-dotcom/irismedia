@@ -104,46 +104,56 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* Fixed 4-Column Grid — same order on all devices, left to right */}
-      <div className="grid grid-cols-4 gap-1 sm:gap-2 md:gap-3">
-        {projectsToDisplay.map((project) => {
-          return (
-            <div
-              key={project.id}
-              onClick={() => onSelectProject(project)}
-              onContextMenu={(e) => e.preventDefault()}
-              className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
-            >
-              {/* Image with natural aspect ratio */}
-              <div className="relative w-full overflow-hidden">
-                <img
-                  src={project.imageUrl}
-                  alt={project.title}
-                  loading="lazy"
-                  onDragStart={(e) => e.preventDefault()}
-                  onError={() => {
-                    setBrokenImageIds((prev) => new Set(prev).add(project.id));
-                  }}
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none block"
-                />
+      {/* Deterministic 4-Column Masonry — 100% identical order and position on all devices */}
+      {(() => {
+        const cols: PortfolioItem[][] = [[], [], [], []];
+        projectsToDisplay.forEach((project, idx) => {
+          cols[idx % 4].push(project);
+        });
 
-                {/* Video Play Badge Indicator */}
-                {project.type === 'video' && (
-                  <div className="absolute top-3 left-3 z-15 bg-black/70 backdrop-blur-md text-white p-2.5 rounded-full shadow-lg border border-white/20">
-                    <Play size={14} fill="currentColor" />
+        return (
+          <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+            {cols.map((colItems, colIdx) => (
+              <div key={colIdx} className="flex flex-col gap-2 sm:gap-3 md:gap-4">
+                {colItems.map((project) => (
+                  <div
+                    key={project.id}
+                    onClick={() => onSelectProject(project)}
+                    onContextMenu={(e) => e.preventDefault()}
+                    className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
+                  >
+                    <div className="relative w-full overflow-hidden">
+                      <img
+                        src={project.imageUrl}
+                        alt={project.title}
+                        loading="lazy"
+                        onDragStart={(e) => e.preventDefault()}
+                        onError={() => {
+                          setBrokenImageIds((prev) => new Set(prev).add(project.id));
+                        }}
+                        className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none block"
+                      />
+
+                      {/* Video Play Badge Indicator */}
+                      {project.type === 'video' && (
+                        <div className="absolute top-3 left-3 z-15 bg-black/70 backdrop-blur-md text-white p-2.5 rounded-full shadow-lg border border-white/20">
+                          <Play size={14} fill="currentColor" />
+                        </div>
+                      )}
+
+                      {/* Anti-Theft Shield Overlay */}
+                      <div
+                        className="absolute inset-0 z-10 bg-transparent"
+                        onContextMenu={(e) => e.preventDefault()}
+                      />
+                    </div>
                   </div>
-                )}
-
-                {/* Anti-Theft Shield Overlay */}
-                <div
-                  className="absolute inset-0 z-10 bg-transparent"
-                  onContextMenu={(e) => e.preventDefault()}
-                />
+                ))}
               </div>
-            </div>
-          );
-        })}
-      </div>
+            ))}
+          </div>
+        );
+      })()}
     </div>
   );
 };
