@@ -1559,7 +1559,7 @@ export const RITUAL_PROJECTS: PortfolioItem[] = [
     "designer": "IRIS Media Production",
     "lighting": "Natural Dusk & Golden Hour Nile",
     "imageUrl": "/projects/nebu-ra/14.jpg",
-    "aspectRatio": "vertical",
+    "aspectRatio": "horizontal",
     "description": "Bespoke heritage sailing aboard the Nebu Ra luxury Nile Dahabiya, captured by IRIS Media Production.",
     "details": {
       "architect": "Heritage Nile Shipwrights",
