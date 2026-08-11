@@ -149,15 +149,15 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
           <div
             onClick={handleImageClick}
             onContextMenu={handleImageContextMenu}
-            className="relative flex items-center justify-center protected-image-container cursor-pointer w-full"
+            className="relative flex-1 flex items-center justify-center protected-image-container cursor-pointer w-full h-full p-2 md:p-4"
             title="Left Click for Next Photo | Right Click for Previous Photo"
           >
-            {/* Full natural frame dimensions */}
+            {/* Uncropped Full Proportional Photo */}
             <img
               src={project.imageUrl}
               alt={project.title}
               onDragStart={(e) => e.preventDefault()}
-              className="max-h-[90vh] max-w-[90vw] w-auto h-auto object-contain shadow-xl rounded-sm select-none pointer-events-none transition-all duration-300"
+              className="max-h-[75vh] md:max-h-[80vh] max-w-[92vw] w-auto h-auto object-contain shadow-2xl rounded-sm select-none pointer-events-none transition-all duration-300"
             />
 
             {/* Transparent Anti-Theft Overlay */}
