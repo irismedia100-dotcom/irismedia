@@ -104,18 +104,18 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* Natural Aspect Ratio Masonry Grid */}
-      <div className="columns-1 sm:columns-2 md:columns-4 gap-4 space-y-4">
+      {/* Horizontal Row Grid — images flow left to right */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {projectsToDisplay.map((project) => {
           return (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
               onContextMenu={(e) => e.preventDefault()}
-              className="break-inside-avoid group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
+              className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-md transition-all duration-500 protected-image-container w-full"
             >
               {/* Image Wrapper with natural height */}
-              <div className="relative w-full h-auto overflow-hidden">
+              <div className="relative w-full overflow-hidden">
                 <img
                   src={project.imageUrl}
                   alt={project.title}
@@ -124,7 +124,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
                   onError={() => {
                     setBrokenImageIds((prev) => new Set(prev).add(project.id));
                   }}
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none block"
+                  className="w-full h-auto object-cover transform group-hover:scale-[1.03] transition-transform duration-700 ease-out select-none pointer-events-none block"
                 />
 
                 {/* Video Play Badge Indicator */}
