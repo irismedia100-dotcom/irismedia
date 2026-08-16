@@ -103,12 +103,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               Contact
             </button>
-            <button
-              onClick={() => onSelectCategory('all')}
-              className="block text-neutral-500 hover:text-neutral-900 transition-colors font-medium text-xs tracking-wider"
-            >
-              Archive
-            </button>
           </div>
 
           {/* Portfolio Navigation Sections */}
@@ -156,26 +150,35 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         </button>
                       </div>
 
-                      {/* Project items under category */}
+                      {/* Company items under category */}
                       {!isCollapsed && (
-                        <ul className="pl-3 space-y-1 border-l border-neutral-100">
-                          {Array.from(new Map(cat.projects.map((p) => [p.title, p])).values()).map((proj) => {
-                            const isProjSelected = selectedProjectId === proj.id;
+                        <ul className="pl-3 space-y-1.5 border-l border-neutral-100">
+                          {cat.companies.map((company) => {
+                            const firstProj = company.projects[0];
+                            const isCompanySelected = selectedProjectId
+                              ? company.projects.some((p) => p.id === selectedProjectId)
+                              : false;
+
                             return (
-                              <li key={proj.id}>
+                              <li key={company.id}>
                                 <button
                                   onClick={() => {
                                     onSelectCategory(cat.id);
-                                    onSelectProjectFilter(proj);
+                                    if (firstProj) {
+                                      onSelectProjectFilter(firstProj);
+                                    }
                                     if (isOpenMobile) onToggleMobile();
                                   }}
-                                  className={`text-[12px] text-left w-full transition-all duration-200 hover:translate-x-1 ${
-                                    isProjSelected
+                                  className={`text-[12px] text-left w-full transition-all duration-200 hover:translate-x-1 flex items-center justify-between py-0.5 ${
+                                    isCompanySelected
                                       ? 'text-neutral-900 font-bold underline underline-offset-2'
                                       : 'text-neutral-400 hover:text-neutral-800'
                                   }`}
                                 >
-                                  {proj.title}
+                                  <span>{company.name}</span>
+                                  <span className="text-[10px] text-neutral-300 font-mono">
+                                    {company.projects.length}
+                                  </span>
                                 </button>
                               </li>
                             );

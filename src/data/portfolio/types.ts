@@ -19,9 +19,20 @@ export interface PortfolioItem {
   };
 }
 
+export interface Company {
+  id: string;
+  name: string;
+  categoryId: 'hotels' | 'nile-cruise' | 'nile-dahabiya';
+  categoryName: string;
+  coverImage?: string;
+  description?: string;
+  projects: PortfolioItem[];
+}
+
 export interface CategorySection {
   id: 'hotels' | 'nile-cruise' | 'nile-dahabiya';
   name: string;
   subtitle?: string;
+  companies: Company[];
   projects: PortfolioItem[];
 }

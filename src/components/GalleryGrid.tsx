@@ -46,7 +46,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
 
   return (
     <div className="w-full min-h-screen bg-white p-4 md:p-10 select-none">
-      {/* Category Sub-heading */}
+      {/* Category / Company Heading */}
       <div className="mb-8 border-b border-neutral-100 pb-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
         <div>
           <h2 className="font-serif-heading text-xl md:text-2xl font-normal text-neutral-900 tracking-wide">
@@ -56,11 +56,6 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
               ? 'Featured Portfolio'
               : currentCategoryInfo?.name}
           </h2>
-          <p className="text-xs text-neutral-400 mt-1 uppercase tracking-wider font-medium">
-            {activeCategory === 'all'
-              ? 'Architectural, Maritime & Desert Spatial Photography'
-              : currentCategoryInfo?.subtitle}
-          </p>
         </div>
 
         {/* Media Filter Tabs & Count */}
@@ -104,42 +99,40 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
         </div>
       </div>
 
-      {/* Fixed 4-Column Masonry Grid — same on all devices */}
-      <div className="columns-4 gap-1.5 sm:gap-3 md:gap-4 space-y-1.5 sm:space-y-3 md:space-y-4">
+      {/* Clean Luxury Ordered Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
         {projectsToDisplay.map((project) => {
           return (
             <div
               key={project.id}
               onClick={() => onSelectProject(project)}
               onContextMenu={(e) => e.preventDefault()}
-              className="break-inside-avoid group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full"
+              className="group relative cursor-pointer overflow-hidden rounded-lg bg-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500 protected-image-container w-full aspect-[4/3] flex items-center justify-center border border-neutral-100 hover:border-neutral-200"
             >
-              {/* Image Wrapper with natural height */}
-              <div className="relative w-full h-auto overflow-hidden">
-                <img
-                  src={project.imageUrl}
-                  alt={project.title}
-                  loading="lazy"
-                  onDragStart={(e) => e.preventDefault()}
-                  onError={() => {
-                    setBrokenImageIds((prev) => new Set(prev).add(project.id));
-                  }}
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none block"
-                />
+              {/* Clean Image with Subtle Zoom Hover Effect */}
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                loading="lazy"
+                onDragStart={(e) => e.preventDefault()}
+                onError={() => {
+                  setBrokenImageIds((prev) => new Set(prev).add(project.id));
+                }}
+                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out select-none pointer-events-none block"
+              />
 
-                {/* Video Play Badge Indicator */}
-                {project.type === 'video' && (
-                  <div className="absolute top-3 left-3 z-15 bg-black/70 backdrop-blur-md text-white p-2.5 rounded-full shadow-lg border border-white/20">
-                    <Play size={14} fill="currentColor" />
-                  </div>
-                )}
+              {/* Video Play Badge Indicator (only if video) */}
+              {project.type === 'video' && (
+                <div className="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-md text-white p-2.5 rounded-full shadow-lg border border-white/20">
+                  <Play size={14} fill="currentColor" />
+                </div>
+              )}
 
-                {/* Anti-Theft Shield Overlay */}
-                <div
-                  className="absolute inset-0 z-10 bg-transparent"
-                  onContextMenu={(e) => e.preventDefault()}
-                />
-              </div>
+              {/* Anti-Theft Shield Overlay */}
+              <div
+                className="absolute inset-0 z-30 bg-transparent"
+                onContextMenu={(e) => e.preventDefault()}
+              />
             </div>
           );
         })}

@@ -1,6 +1,6 @@
-import type { PortfolioItem } from './types';
+import type { PortfolioItem } from '../../types';
 
-export const CHALETS_HOTELS_PROJECTS: PortfolioItem[] = [
+export const OPAL_LEGACY_PROJECTS: PortfolioItem[] = [
   {
     "id": "opal-legacy-1",
     "title": "Opal Legacy",
@@ -2789,24 +2789,6 @@ export const CHALETS_HOTELS_PROJECTS: PortfolioItem[] = [
       "architect": "Opal Hospitality Design",
       "client": "Opal Legacy Hotel",
       "specs": "Complete Spatial, Interior & Exterior Coverage"
-    }
-  },
-  {
-    "id": "seti-abusimbel-1",
-    "title": "Seti Abusimbel",
-    "category": "Hotels",
-    "categoryId": "hotels",
-    "location": "Egypt",
-    "year": "2025",
-    "designer": "IRIS Media Production",
-    "lighting": "Ambient Luxury & Spatial Lighting",
-    "imageUrl": "/projects/opal-legacy/opal_45932725dbe8.jpg",
-    "aspectRatio": "horizontal",
-    "description": "Luxury hospitality visuals captured with precision by IRIS Media Production.",
-    "details": {
-      "architect": "Seti Abusimbel",
-      "client": "Seti Abusimbel",
-      "specs": "Luxury Hotel Visual Production"
     }
   }
 ];

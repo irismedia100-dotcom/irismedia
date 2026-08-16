@@ -115,11 +115,26 @@ export const App: React.FC = () => {
     };
   }, []);
 
-  // Filter projects by current category
-  const filteredProjects =
+  // Determine current active company item if any
+  const selectedItem = selectedProjectId
+    ? ALL_PROJECTS.find((p) => p.id === selectedProjectId)
+    : null;
+
+  // Compute the exact list of items for the currently active view/company
+  let currentActiveItems =
     activeCategory === 'all'
       ? ALL_PROJECTS
       : ALL_PROJECTS.filter((p) => p.categoryId === activeCategory);
+
+  if (selectedItem) {
+    currentActiveItems = currentActiveItems.filter((p) => p.title === selectedItem.title);
+  } else if (lightboxProject) {
+    // Scope lightbox navigation to the company of the opened item
+    const companyItems = ALL_PROJECTS.filter((p) => p.title === lightboxProject.title);
+    if (companyItems.length > 0) {
+      currentActiveItems = companyItems;
+    }
+  }
 
   // ─── Render Home Page ────────────────────────────────────────
   if (showHome) {
@@ -135,7 +150,7 @@ export const App: React.FC = () => {
         {lightboxProject && (
           <LightboxModal
             project={lightboxProject}
-            allProjects={filteredProjects}
+            allProjects={currentActiveItems}
             onClose={() => handleSelectLightboxProject(null)}
             onSelectProject={(proj) => handleSelectLightboxProject(proj)}
           />
@@ -183,7 +198,7 @@ export const App: React.FC = () => {
       {lightboxProject && (
         <LightboxModal
           project={lightboxProject}
-          allProjects={filteredProjects}
+          allProjects={currentActiveItems}
           onClose={() => handleSelectLightboxProject(null)}
           onSelectProject={(proj) => handleSelectLightboxProject(proj)}
         />
